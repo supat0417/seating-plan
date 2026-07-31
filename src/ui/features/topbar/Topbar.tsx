@@ -9,7 +9,6 @@ import {
   BrandIcon, EditIcon, GuestsIcon, SearchIcon, UndoIcon, RedoIcon,
   HelpIcon, PaletteIcon, DownloadIcon, UploadIcon, TrashIcon,
 } from '../../components/Icons';
-import { HelpModal } from '../../components/HelpModal';
 import { ThemeModal, themeButtonDotColor } from './ThemeModal';
 
 const TABS: Array<{ mode: Mode; labelKey: 'tabEdit' | 'tabGuests' | 'tabPreview' }> = [
@@ -27,7 +26,6 @@ export function Topbar() {
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showHelp, setShowHelp] = useState(false);
   const [showTheme, setShowTheme] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
 
@@ -178,7 +176,7 @@ export function Topbar() {
           <button className="chip icon-chip" title={t('undoBtnTitle')} aria-label={t('undoBtnTitle')} disabled={!canUndoRedo} onClick={handleUndo}><UndoIcon size={15} /></button>
           <button className="chip icon-chip" title={t('redoBtnTitle')} aria-label={t('redoBtnTitle')} disabled={!canUndoRedo} onClick={handleRedo}><RedoIcon size={15} /></button>
           <span className="toolbar-sep" />
-          <button className="chip" title={t('helpBtnTitle')} onClick={() => setShowHelp(true)}><HelpIcon size={15} />{t('helpBtn')}</button>
+          <a className="chip" title={t('helpBtnTitle')} href={`${import.meta.env.BASE_URL}how-to-use.html`} target="_blank" rel="noopener noreferrer"><HelpIcon size={15} />{t('helpBtn')}</a>
           <button className="chip" title={t('themeBtnTitle')} onClick={() => setShowTheme(true)}>
             <PaletteIcon size={15} />{t('themeBtn')}
             {themeDot && <span className="theme-btn-dot" style={{ background: themeDot }} />}
@@ -203,7 +201,6 @@ export function Topbar() {
           </div>
         </div>
       </div>
-      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
       {showTheme && <ThemeModal onClose={() => setShowTheme(false)} />}
     </div>
   );

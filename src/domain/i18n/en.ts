@@ -37,48 +37,6 @@ const en: Dictionary = {
   langToggleTitle: 'Switch language / เปลี่ยนภาษา',
   helpBtn: 'How to use',
   helpBtnTitle: 'View detailed usage instructions',
-  helpTitle: 'How to Use',
-  helpSubtitle: 'A detailed guide to the seating plan app',
-  helpContent: `
-    <p>This app manages an event seating plan across three main tabs, plus a top menu bar available from any tab.</p>
-
-    <h4>1. "Edit Floor Plan" tab</h4>
-    <ul>
-      <li><b>Arrange layout / Add an object</b> — Drag an icon (Round table, Long table, Stage, Door) from the panel onto the plan, or click an icon to add it automatically at a random position</li>
-      <li><b>Move an object</b> — Click and hold an object, then drag it. Gold guide lines snap it to the center or to align with nearby objects automatically</li>
-      <li><b>Select multiple</b> — Drag across empty space on the plan to select several objects at once, then drag any selected object to move the whole group together</li>
-      <li><b>Resize / rotate</b> — Click a single object to select it; a gold handle appears at the bottom-right corner to resize, and a rotation control appears in the "Details" panel on the right (for Long table, Stage, and Door only)</li>
-      <li><b>Edit table name / number / seats per table</b> — Click an object and edit its values in the "Details" panel on the right; changes save automatically</li>
-      <li><b>Delete an object</b> — Select it and click "Delete object" in the details panel, or press <kbd>Delete</kbd> on your keyboard</li>
-      <li><b>Keyboard shortcuts</b> — <kbd>Ctrl+C</kbd> copy, <kbd>Ctrl+V</kbd> paste, <kbd>Ctrl+Z</kbd> undo, <kbd>Ctrl+Shift+Z</kbd> or <kbd>Ctrl+Y</kbd> redo</li>
-      <li><b>Zoom</b> — Use the −/+ buttons, hold <kbd>Ctrl</kbd> and scroll the mouse wheel, or click "Fit to screen" to reset the view</li>
-    </ul>
-
-    <h4>2. "Guest List" tab</h4>
-    <ul>
-      <li><b>Export template</b> — Click "Export template" to download a .csv file automatically pre-filled with every table/object from the current floor plan and a row for every seat. Open it in Excel and fill in only the "Full name" column — rows left blank are skipped when imported</li>
-      <li><b>Import from file</b> — Upload a .csv file (including the filled-in template) at "Import from File / Excel"; this replaces the entire guest list with the data in the file (you'll be asked to confirm first if a guest list already exists — and you can undo it with <kbd>Ctrl+Z</kbd> if you imported the wrong file)</li>
-      <li><b>Edit in the table</b> — Edit name/table/seat directly in the guest table below, or click "+ Add guest" to add guests one at a time without a file</li>
-      <li><b>Remove a guest</b> — Click the ✕ button at the end of a row to remove that guest from the list</li>
-    </ul>
-
-    <h4>3. "Preview" tab</h4>
-    <ul>
-      <li><b>Search guests</b> — Type a name in the search box, then click a result to highlight that table on the plan and open the full guest list for that table</li>
-      <li><b>View the floor plan</b> — Click a table directly on the plan to open the list of guests seated there</li>
-    </ul>
-
-    <h4>4. Top menu (available on every tab)</h4>
-    <ul>
-      <li><b>Search guests (magnifier icon)</b> — Search for a guest from any tab, not just Preview. Click a result to jump to the Preview tab and highlight their table automatically</li>
-      <li><b>↶ / ↷ Undo / Redo</b> — Available in both the "Edit Floor Plan" and "Guest List" tabs (or press <kbd>Ctrl+Z</kbd> / <kbd>Ctrl+Shift+Z</kbd>), covering both floor plan edits and guest list imports</li>
-      <li><b>Export</b> — Export the floor plan + guest list + selected theme together as a single <code>data.json</code> file. Use it as a backup, or place it right next to seating-display.html when deploying (the guest display page loads it automatically)</li>
-      <li><b>Import</b> — Import a previously exported .json file, replacing all current floor plan/guest/theme data (you'll always be asked to confirm first)</li>
-      <li><b>TH / EN</b> — Switch the whole app's display language between Thai and English; your choice is remembered on this device for next time</li>
-    </ul>
-
-    <div class="help-tip">💡 The floor plan and guest list save automatically in this browser as you edit. Click Export regularly to back up your data as a file — it will be lost if you clear your browser cache or switch devices/browsers.</div>
-  `,
 
   panelAddObjectTitle: 'Arrange Layout',
   panelAddObjectHint: 'Drag an icon onto the floor plan, or click to add it at a random position',

@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>seating plant — คู่มือการใช้งาน / How to Use</title>
+<style>
+:root {
+  --cream: #f7f8fa; --paper: #ffffff; --paper-soft: #f3f4f6;
+  --navy: #20242b; --navy-deep: #14171b; --navy-soft: rgba(32,36,43,.05);
+  --slate: #8992a3; --slate-deep: #636d80; --slate-soft: rgba(137,146,163,.12);
+  --gold: #c9a35e; --gold-deep: #a3814a; --gold-soft: rgba(201,163,94,.16);
+  --line: #e7eaee; --line-strong: #d6dbe2;
+  --text: #20242b; --muted: #767f8c;
+  --danger: #c1543c; --danger-soft: rgba(193,84,60,.12);
+  --shadow-sm: 0 1px 2px rgba(20,24,29,.05); --shadow-md: 0 8px 24px rgba(20,24,29,.08);
+  --mono: 'Fustat','IBM Plex Sans Thai','Noto Sans Thai','Leelawadee UI','Segoe UI',system-ui,sans-serif;
+  --sans: 'Fustat','IBM Plex Sans Thai','Noto Sans Thai','Leelawadee UI','Segoe UI',system-ui,sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--cream); }
+body { margin:0; background:var(--cream); color:var(--text); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+img,svg{ display:block; }
+
+/* ---------- guide chrome ---------- */
+.brand-strip{ height:3px; width:100%; background:linear-gradient(90deg,var(--gold),var(--gold-deep)); position:sticky; top:0; z-index:60; }
+.lang-switch{ position:sticky; top:3px; z-index:59; display:flex; justify-content:flex-end; padding:10px 20px; background:rgba(247,248,250,.9); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+.lang-switch-inner{ display:flex; gap:2px; background:var(--paper); padding:3px; border-radius:9px; border:1px solid var(--line-strong); box-shadow:var(--shadow-sm); }
+.lang-btn{ font-family:var(--mono); font-size:12px; font-weight:700; color:var(--muted); background:transparent; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; letter-spacing:.03em; }
+.lang-btn.active{ background:var(--navy); color:var(--gold); }
+
+.wrap{ max-width:900px; margin:0 auto; padding:0 20px 90px; }
+.lang-block{ display:none; }
+.lang-block.active{ display:block; }
+
+.hero{ padding:46px 0 30px; text-align:center; }
+.hero .eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--gold-deep); text-transform:uppercase; font-weight:700; }
+.hero h1{ font-size:34px; font-weight:800; margin:10px 0 6px; color:var(--navy); letter-spacing:.01em; }
+.hero p.lede{ font-size:15.5px; color:var(--muted); max-width:620px; margin:0 auto; line-height:1.75; }
+.hero .brandmark{ width:56px; height:56px; margin:0 auto 14px; border-radius:14px; background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-md); }
+
+.steps3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:26px 0 8px; }
+@media (max-width:720px){ .steps3{ grid-template-columns:1fr; } }
+.step3-card{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:18px 16px; box-shadow:var(--shadow-sm); text-align:center; }
+.step3-card .num{ font-family:var(--mono); font-weight:800; font-size:13px; color:var(--navy-deep); background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); border-radius:7px; display:inline-flex; align-items:center; justify-content:center; min-width:26px; padding:5px 10px; box-shadow:var(--shadow-sm); margin-bottom:10px; }
+.step3-card h3{ margin:4px 0 6px; font-size:14.5px; color:var(--navy); }
+.step3-card p{ margin:0; font-size:12.5px; color:var(--muted); line-height:1.6; }
+.step3-arrow{ display:none; }
+
+section.guide-section{ margin-top:54px; }
+section.guide-section .sec-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:6px; }
+section.guide-section .sec-num{ font-family:var(--mono); font-size:14px; font-weight:800; color:var(--navy-deep); background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); border-radius:8px; padding:5px 12px; box-shadow:var(--shadow-sm); }
+section.guide-section h2{ font-size:23px; margin:0; color:var(--navy); font-weight:800; }
+section.guide-section .sec-sub{ font-size:14px; color:var(--muted); margin:6px 0 22px; line-height:1.7; max-width:640px; }
+
+.frame{ background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-md); margin:18px 0 22px; }
+.frame-bar{ display:flex; align-items:center; gap:6px; padding:10px 14px; background:var(--paper); border-bottom:1px solid var(--line); }
+.frame-bar .dot{ width:9px; height:9px; border-radius:50%; background:var(--line-strong); }
+.frame-bar .dot:nth-child(1){ background:#e5a2a2; } .frame-bar .dot:nth-child(2){ background:#e8cf9a; } .frame-bar .dot:nth-child(3){ background:#a7d0a6; }
+.frame-bar .fb-label{ margin-left:10px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.03em; }
+.frame-body{ padding:18px; }
+
+.callouts{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+.callout{ display:flex; gap:11px; background:var(--paper); border:1px solid var(--line); border-radius:11px; padding:12px 14px; box-shadow:var(--shadow-sm); }
+.callout .cbullet{ flex:none; width:22px; height:22px; border-radius:6px; background:var(--gold-soft); color:var(--gold-deep); font-family:var(--mono); font-weight:800; font-size:11px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.callout b{ color:var(--navy); }
+.callout p{ margin:0; font-size:13.5px; line-height:1.7; color:var(--text); }
+.callout .ck{ background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:4px; padding:1px 6px; font-family:var(--mono); font-size:11.5px; color:var(--navy); }
+
+.tip{ font-size:13px; color:var(--navy); background:var(--gold-soft); border:1px solid rgba(201,163,94,.5); border-radius:10px; padding:12px 15px; margin-top:16px; line-height:1.7; }
+.tip b{ color:var(--navy); }
+
+.warn-banner{ background:var(--danger-soft); border:1.5px solid rgba(193,84,60,.45); border-radius:14px; padding:18px 20px; margin:26px 0 4px; box-shadow:var(--shadow-sm); }
+.warn-banner .wb-head{ display:flex; align-items:center; gap:9px; font-size:15px; font-weight:800; color:var(--danger); margin-bottom:8px; }
+.warn-banner p{ margin:0 0 10px; font-size:13.5px; color:var(--text); line-height:1.75; }
+.warn-banner ol{ margin:0; padding-left:20px; }
+.warn-banner li{ font-size:13.5px; color:var(--text); line-height:1.75; margin-bottom:7px; }
+.warn-banner li:last-child{ margin-bottom:0; }
+.warn-banner b{ color:var(--navy); }
+.warn-banner .ck{ background:var(--paper); border:1px solid var(--line-strong); border-radius:4px; padding:1px 6px; font-family:var(--mono); font-size:11.5px; color:var(--navy); }
+
+/* ---------- reused mini app UI (matches the real app's design system) ---------- */
+.m-topbar{ display:flex; flex-direction:column; gap:12px; background:var(--paper); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow-sm); padding:14px 16px; }
+.m-brand{ display:flex; align-items:center; gap:11px; }
+.m-brand-mark{ width:32px; height:32px; border-radius:8px; flex:none; background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); box-shadow:var(--shadow-sm); }
+.m-eyebrow{ font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; color:var(--gold-deep); text-transform:uppercase; font-weight:700; }
+.m-h1{ font-size:16px; font-weight:800; margin:1px 0 0; color:var(--navy); }
+.m-topbar-controls{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+.m-tabs{ display:flex; gap:3px; background:var(--paper-soft); padding:3px; border-radius:9px; border:1px solid var(--line); }
+.m-tab{ font-size:11.5px; font-weight:700; color:var(--muted); background:transparent; border:none; padding:7px 11px; border-radius:6px; display:inline-flex; align-items:center; gap:5px; }
+.m-tab.active{ background:var(--navy); color:var(--gold); }
+.m-toolbar{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.m-chip{ font-size:11px; font-weight:600; color:var(--navy); background:var(--paper-soft); border:1px solid var(--line-strong); padding:6px 10px; border-radius:7px; display:inline-flex; align-items:center; gap:5px; }
+.m-chip.icon{ width:28px; height:28px; padding:0; justify-content:center; }
+.m-chip.danger{ color:var(--danger); }
+.m-chip.primary{ background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); color:var(--navy-deep); font-weight:800; border-color:var(--gold-deep); }
+.m-lang{ display:flex; gap:2px; background:var(--paper-soft); padding:2px; border-radius:7px; border:1px solid var(--line); }
+.m-lang span{ font-family:var(--mono); font-size:9.5px; font-weight:800; padding:5px 8px; border-radius:5px; color:var(--muted); }
+.m-lang span.active{ background:var(--navy); color:var(--gold); }
+.m-sep{ width:1px; height:18px; background:var(--line); margin:0 1px; }
+
+.m-panel{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px 17px; box-shadow:var(--shadow-sm); margin-top:12px; }
+.m-panel h4{ font-size:12.5px; font-weight:800; margin:0 0 9px; color:var(--navy); display:flex; align-items:center; gap:9px; }
+.m-panel h4 .n{ font-family:var(--mono); font-size:11px; font-weight:800; color:var(--navy-deep); background:linear-gradient(135deg,var(--gold) 0%, var(--gold-deep) 100%); border-radius:6px; padding:3px 8px; }
+.m-hint{ font-size:11.5px; color:var(--muted); line-height:1.6; margin:0 0 11px; }
+
+.m-objpicker{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:11px; }
+.m-objcard{ display:flex; flex-direction:column; align-items:center; gap:5px; width:68px; padding:10px 4px; background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:9px; }
+.m-objcard .shape{ height:26px; display:flex; align-items:center; justify-content:center; }
+.shape.round{ width:26px; height:26px; border-radius:50%; background:rgba(137,146,163,.18); border:2px solid var(--slate); }
+.shape.long{ width:42px; height:20px; border-radius:5px; background:rgba(201,163,94,.25); border:2px solid var(--gold-deep); }
+.shape.stage{ width:42px; height:22px; border-radius:3px; background:repeating-linear-gradient(45deg, rgba(32,36,43,.1), rgba(32,36,43,.1) 4px, rgba(32,36,43,.18) 4px, rgba(32,36,43,.18) 8px); border:2px solid var(--navy); }
+.shape.door{ width:32px; height:10px; border-radius:3px; background:rgba(193,84,60,.14); border:2px dashed var(--danger); }
+.m-objcard .lbl{ font-size:9.5px; color:var(--navy); font-weight:700; text-align:center; line-height:1.25; }
+
+.m-layout{ display:grid; grid-template-columns:1fr 175px; gap:12px; }
+@media (max-width:560px){ .m-layout{ grid-template-columns:1fr; } }
+.m-canvas{ position:relative; border-radius:9px; border:1px solid var(--line-strong); height:270px;
+  background: repeating-linear-gradient(0deg, var(--slate-soft) 0, var(--slate-soft) 1px, transparent 1px, transparent 22px),
+              repeating-linear-gradient(90deg, var(--slate-soft) 0, var(--slate-soft) 1px, transparent 1px, transparent 22px), var(--paper-soft);
+  overflow:hidden; }
+.m-obj{ position:absolute; display:flex; align-items:center; justify-content:center; flex-direction:column; border-width:2px; border-style:solid; font-family:var(--mono); color:var(--navy); }
+.m-obj .l1{ font-size:10px; font-weight:800; letter-spacing:.02em; }
+.m-obj .l2{ font-size:8px; color:var(--muted); }
+.m-obj.round{ border-radius:50%; background:rgba(137,146,163,.12); border-color:var(--slate); }
+.m-obj.long{ border-radius:7px; background:rgba(201,163,94,.20); border-color:var(--gold-deep); }
+.m-obj.stage{ border-radius:4px; background:repeating-linear-gradient(45deg, rgba(32,36,43,.08), rgba(32,36,43,.08) 5px, rgba(32,36,43,.14) 5px, rgba(32,36,43,.14) 10px); border-color:var(--navy); }
+.m-obj.door{ border-radius:4px; background:rgba(193,84,60,.10); border-color:var(--danger); border-style:dashed; }
+.m-obj.selected{ outline:2px dashed var(--gold-deep); outline-offset:2px; }
+.m-obj.glow{ box-shadow:0 0 0 5px rgba(201,163,94,.5); }
+.m-resize{ position:absolute; right:-6px; bottom:-6px; width:12px; height:12px; border-radius:50%; background:var(--paper); border:2px solid var(--gold-deep); box-shadow:var(--shadow-sm); }
+.m-rotate{ position:absolute; top:-24px; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%; background:var(--paper); border:2px solid var(--slate-deep); box-shadow:var(--shadow-sm); }
+.m-rotate-line{ position:absolute; left:50%; top:-13px; width:2px; height:13px; background:var(--slate-deep); transform:translateX(-50%); }
+
+.m-side{ background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px 12px; }
+.m-side h5{ font-size:11.5px; margin:0 0 8px; color:var(--navy); font-weight:800; }
+.m-side label{ display:block; font-size:8.5px; color:var(--muted); margin:8px 0 3px; font-family:var(--mono); text-transform:uppercase; letter-spacing:.05em; }
+.m-side .fake-input{ width:100%; background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:6px; color:var(--text); padding:6px 8px; font-size:11px; }
+.m-side .row2{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.m-side .del-btn{ margin-top:12px; width:100%; text-align:center; font-size:10.5px; font-weight:700; color:var(--danger); border:1px solid var(--line-strong); background:var(--paper-soft); border-radius:7px; padding:7px; }
+
+.m-zoomrow{ display:flex; align-items:center; gap:6px; margin-bottom:9px; flex-wrap:wrap; }
+.m-zoomrow .zbtn{ width:22px; height:22px; border-radius:6px; background:var(--paper-soft); border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--navy); }
+.m-zoomrow .zlabel{ font-family:var(--mono); font-size:10.5px; color:var(--gold-deep); font-weight:700; }
+.m-zoomrow .zhint{ font-size:9.5px; color:var(--muted); }
+
+.m-toolgrid{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+
+.m-statrow{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:11px; }
+.m-stat{ background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:8px; padding:8px 13px; min-width:78px; }
+.m-stat .v{ font-family:var(--mono); font-size:16px; color:var(--gold-deep); font-weight:800; }
+.m-stat.warn .v{ color:var(--danger); }
+.m-stat .l{ font-size:9.5px; color:var(--muted); }
+
+.m-tableoverview{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:11px; }
+.m-tchip{ display:inline-flex; align-items:center; gap:5px; background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:16px; padding:5px 10px 5px 9px; font-size:10.5px; }
+.m-tchip.active{ background:var(--navy); border-color:var(--navy-deep); color:var(--gold); }
+.m-tchip .dot{ width:6px; height:6px; border-radius:50%; }
+.m-tchip .dot.full{ background:var(--gold-deep); } .m-tchip .dot.partial{ background:var(--slate); } .m-tchip .dot.over{ background:var(--danger); }
+
+.m-table{ width:100%; border-collapse:collapse; font-size:11px; }
+.m-table th{ text-align:left; color:var(--muted); font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:.05em; padding:6px; border-bottom:1px solid var(--line-strong); }
+.m-table td{ padding:6px; border-bottom:1px solid var(--line); }
+.m-table tr.dup td{ background:var(--danger-soft); }
+.m-table .del{ color:var(--muted); font-size:11px; }
+
+.m-search{ position:relative; max-width:100%; }
+.m-search input{ width:100%; background:var(--paper); border:1px solid var(--line-strong); border-radius:9px; color:var(--muted); padding:9px 10px 9px 30px; font-size:12px; box-shadow:var(--shadow-sm); }
+.m-search .sicon{ position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:12px; color:var(--muted); }
+.m-resultrow{ display:flex; justify-content:space-between; align-items:center; background:var(--paper); border:1px solid var(--gold-deep); box-shadow:0 0 0 2px var(--gold-soft); border-radius:8px; padding:8px 11px; margin-top:8px; font-size:11.5px; }
+.m-resultrow .rname{ font-weight:600; color:var(--navy); }
+.m-resultrow .rtable{ font-family:var(--mono); font-size:10.5px; color:var(--gold-deep); font-weight:700; }
+
+.m-modal-wrap{ display:flex; justify-content:center; margin-top:12px; }
+.m-modal{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px 18px; width:230px; box-shadow:var(--shadow-md); }
+.m-modal h6{ margin:0 0 3px; font-size:13.5px; color:var(--navy); }
+.m-modal .cap{ font-family:var(--mono); font-size:9.5px; color:var(--muted); margin-bottom:10px; }
+.m-glist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; }
+.m-glist li{ display:flex; justify-content:space-between; background:var(--paper-soft); border:1px solid var(--line); border-radius:6px; padding:6px 9px; font-size:10.5px; }
+.m-glist .seatno{ font-family:var(--mono); color:var(--gold-deep); font-weight:700; }
+.m-glist .empty{ color:var(--muted); font-style:italic; }
+
+.m-banner{ font-size:10.5px; color:var(--navy); background:var(--gold-soft); border:1px solid rgba(201,163,94,.4); border-radius:7px; padding:7px 10px; margin-bottom:10px; }
+
+.themegrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:8px; margin-top:8px; }
+.themecard{ border:2px solid var(--line); border-radius:9px; overflow:hidden; }
+.themecard.active{ border-color:var(--gold-deep); box-shadow:0 0 0 2px var(--gold-soft); }
+.themeswatch{ height:36px; display:flex; }
+.themeswatch span{ flex:1; }
+.themecard-label{ display:flex; align-items:center; justify-content:space-between; gap:4px; padding:6px 8px; font-size:9.5px; font-weight:700; color:var(--text); }
+
+.kbd-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; margin-top:6px; }
+@media (max-width:560px){ .kbd-grid{ grid-template-columns:1fr; } }
+.kbd-row{ display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:8px 0; border-bottom:1px dashed var(--line); }
+.kbd-row .kk{ display:flex; gap:5px; }
+.kbd-row kbd{ font-family:var(--mono); font-size:11px; background:var(--paper-soft); border:1px solid var(--line-strong); border-radius:5px; padding:3px 7px; color:var(--navy); }
+.kbd-row .kdesc{ color:var(--muted); }
+
+.footer-note{ margin-top:60px; padding-top:22px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); text-align:center; line-height:1.8; }
+.footer-note b{ color:var(--navy); }
+
+.toc{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:22px 0 6px; }
+.toc a{ font-size:12px; font-weight:600; color:var(--navy); background:var(--paper); border:1px solid var(--line-strong); padding:7px 13px; border-radius:20px; text-decoration:none; box-shadow:var(--shadow-sm); }
+.toc a:hover{ border-color:var(--gold-deep); }
+</style>
+</head>
+<body>
+<div class="brand-strip"></div>
+<div class="lang-switch">
+  <div class="lang-switch-inner">
+    <button class="lang-btn active" data-lang="th" onclick="setLang('th')">ไทย</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+  </div>
+</div>
+
+<!-- =========================================================== THAI =========================================================== -->
+<main class="lang-block active" id="block-th">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="brandmark"></div>
+    <div class="eyebrow">ผังงาน / จัดที่นั่ง</div>
+    <h1>คู่มือใช้งาน seating plant</h1>
+    <p class="lede">โปรแกรมจัดผังที่นั่งงานอีเวนต์แบบลากวาง — จัดโต๊ะ กำหนดจำนวนที่นั่ง ใส่รายชื่อแขก แล้วส่งออกไฟล์เดียวไปใช้แสดงผลหน้างานให้แขกค้นหาที่นั่งของตัวเองได้ทันที ใช้งานผ่านเบราว์เซอร์ทั้งหมด ไม่ต้องติดตั้งโปรแกรม ไม่ต้องมีความรู้ด้านเทคนิค</p>
+  </div>
+
+  <div class="warn-banner">
+    <div class="wb-head">⚠️ อย่าลืม: ส่งออกไฟล์เก็บไว้เป็นระยะ ข้อมูลอยู่ในเบราว์เซอร์นี้เท่านั้น</div>
+    <p>แอปนี้บันทึกผังห้องและรายชื่อแขกอัตโนมัติ แต่บันทึกไว้ <b>"ในเบราว์เซอร์เครื่องนี้เท่านั้น"</b> — ถ้าล้างแคช เปลี่ยนเครื่อง เปลี่ยนเบราว์เซอร์ หรือเบราว์เซอร์มีปัญหา ข้อมูลทั้งหมดจะหายและกู้คืนเองไม่ได้ ให้ทำตาม 3 ข้อนี้เป็นนิสัย:</p>
+    <ol>
+      <li>ทุกครั้งที่แก้ไขผังห้องหรือรายชื่อแขกเสร็จเป็นรอบๆ ให้กด <b>"ส่งออกไฟล์"</b> ที่เมนูด้านบน จะได้ไฟล์ <span class="ck">data.json</span> — เก็บไว้ในเครื่อง หรือสำรองไว้ที่อื่นด้วย เช่น Google Drive, ส่งอีเมลถึงตัวเอง, หรือแฟลชไดรฟ์</li>
+      <li>ถ้าวันหลังเปิดแอปมาแล้วข้อมูลหาย หรือย้ายไปเปิดในเครื่อง/เบราว์เซอร์อื่น ให้กด <b>"นำเข้าไฟล์"</b> แล้วเลือกไฟล์ data.json ที่เคยส่งออกไว้ล่าสุด ยืนยันเมื่อระบบถาม แล้วข้อมูลเดิมทั้งหมด (ผังห้อง + รายชื่อแขก + ธีมสี) จะกลับมาเหมือนเดิมทันที</li>
+      <li>ถ้านำเข้าไฟล์ผิดไฟล์ หรือกดยืนยันผิด กด <span class="ck">Ctrl+Z</span> เพื่อย้อนกลับได้ทันที</li>
+    </ol>
+  </div>
+
+  <div class="toc">
+    <a href="#th-tab1">1. แก้ไขผังห้อง</a>
+    <a href="#th-tab2">2. ข้อมูลแขก</a>
+    <a href="#th-tab3">3. ดูตัวอย่าง</a>
+    <a href="#th-topbar">เมนูส่วนกลาง</a>
+    <a href="#th-tips">เคล็ดลับ</a>
+    <a href="#th-shortcuts">คีย์ลัด</a>
+  </div>
+
+  <div class="steps3">
+    <div class="step3-card"><div class="num">01</div><h3>จัดผังห้อง</h3><p>ลากโต๊ะ เวที ประตู มาวางบนผังงาน</p></div>
+    <div class="step3-card"><div class="num">02</div><h3>ใส่รายชื่อแขก</h3><p>กรอกในตาราง หรือนำเข้าจาก Excel/CSV</p></div>
+    <div class="step3-card"><div class="num">03</div><h3>ดูตัวอย่าง &amp; ส่งออก</h3><p>ตรวจสอบผัง แล้วส่งออกไฟล์ไปใช้หน้างาน</p></div>
+  </div>
+
+  <!-- SECTION 1 : EDIT -->
+  <section class="guide-section" id="th-tab1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>แท็บ "แก้ไขผังห้อง"</h2></div>
+    <p class="sec-sub">จุดเริ่มต้นของทุกงาน — วางผังโต๊ะ เวที และประตูให้ตรงกับสถานที่จัดงานจริง</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — แก้ไขผังห้อง</span></div>
+      <div class="frame-body">
+        <div class="m-topbar">
+          <div class="m-topbar-controls">
+            <div class="m-tabs">
+              <span class="m-tab active">✎ แก้ไขผังห้อง</span>
+              <span class="m-tab">☰ ข้อมูลแขก</span>
+              <span class="m-tab">🔍 ดูตัวอย่าง</span>
+            </div>
+          </div>
+        </div>
+        <div class="m-panel" style="margin-top:14px;">
+          <h4><span class="n">01</span>จัดแผนผัง</h4>
+          <div class="m-hint">ลากไอคอนไปวางบนผัง หรือคลิกเพื่อเพิ่มที่ตำแหน่งสุ่ม</div>
+          <div class="m-objpicker">
+            <div class="m-objcard"><div class="shape round"></div><span class="lbl">โต๊ะจีน (กลม)</span></div>
+            <div class="m-objcard"><div class="shape long"></div><span class="lbl">Long table</span></div>
+            <div class="m-objcard"><div class="shape stage"></div><span class="lbl">เวที</span></div>
+            <div class="m-objcard"><div class="shape door"></div><span class="lbl">ประตู</span></div>
+          </div>
+          <div class="m-zoomrow">
+            <span class="zbtn">−</span><span class="zlabel">100%</span><span class="zbtn">+</span>
+            <span class="m-chip">⤢ พอดีหน้าจอ</span>
+            <span class="zhint">Ctrl + เลื่อนล้อเมาส์ เพื่อซูม</span>
+          </div>
+          <div class="m-layout">
+            <div class="m-canvas">
+              <div class="m-obj stage" style="left:24px; top:14px; width:150px; height:34px;"><span class="l1">เวที</span></div>
+              <div class="m-obj round selected" style="left:36px; top:78px; width:78px; height:78px;">
+                <div class="m-rotate-line"></div><div class="m-rotate"></div>
+                <span class="l1">โต๊ะจีน 1</span><span class="l2">10 ที่นั่ง</span>
+                <div class="m-resize"></div>
+              </div>
+              <div class="m-obj round" style="left:140px; top:170px; width:70px; height:70px;"><span class="l1">โต๊ะจีน 2</span><span class="l2">10 ที่นั่ง</span></div>
+              <div class="m-obj long" style="left:230px; top:60px; width:110px; height:44px;"><span class="l1">Long table 1</span><span class="l2">8 ที่นั่ง</span></div>
+              <div class="m-obj door" style="right:14px; top:110px; width:16px; height:60px;"></div>
+            </div>
+            <div class="m-side">
+              <h5>รายละเอียด</h5>
+              <label>ชื่อโต๊ะ / หมายเลขโต๊ะ</label><div class="fake-input">โต๊ะจีน 1</div>
+              <label>จำนวนที่นั่ง/โต๊ะ</label><div class="fake-input">10</div>
+              <div class="row2">
+                <div><label>กว้าง (px)</label><div class="fake-input">140</div></div>
+                <div><label>สูง (px)</label><div class="fake-input">140</div></div>
+              </div>
+              <div class="del-btn">ลบวัตถุ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">+</span><p><b>เพิ่มวัตถุ</b> — ลากไอคอนโต๊ะจีน, Long table, เวที หรือประตู จากช่องด้านบนไปวางบนผัง หรือคลิกที่ไอคอนเพื่อเพิ่มอัตโนมัติที่ตำแหน่งสุ่ม</p></div>
+      <div class="callout"><span class="cbullet">⇄</span><p><b>ย้ายตำแหน่ง</b> — คลิกค้างที่วัตถุแล้วลาก จะมีเส้นไกด์สีทองช่วยจัดกึ่งกลาง/แนวเดียวกับวัตถุอื่นให้อัตโนมัติเมื่อลากเข้าใกล้</p></div>
+      <div class="callout"><span class="cbullet">▦</span><p><b>เลือกหลายชิ้น</b> — ลากคลุมพื้นที่ว่างบนผังเพื่อเลือกหลายวัตถุพร้อมกัน แล้วลากวัตถุใดวัตถุหนึ่งเพื่อย้ายทั้งกลุ่ม</p></div>
+      <div class="callout"><span class="cbullet">⤡</span><p><b>ปรับขนาด / หมุน</b> — คลิกเลือกวัตถุ 1 ชิ้น จะมีจุดสีทองที่มุมขวาล่างให้ลากปรับขนาด และช่องปรับองศาในกล่อง "รายละเอียด" ด้านขวา (เฉพาะ Long table, เวที, ประตู)</p></div>
+      <div class="callout"><span class="cbullet">✎</span><p><b>แก้ชื่อโต๊ะ / จำนวนที่นั่ง</b> — คลิกวัตถุแล้วแก้ไขค่าต่างๆ ในกล่อง "รายละเอียด" ด้านขวา ระบบบันทึกอัตโนมัติทันทีที่แก้ไข</p></div>
+      <div class="callout"><span class="cbullet">✕</span><p><b>ลบวัตถุ</b> — เลือกวัตถุแล้วกดปุ่ม "ลบวัตถุ" ในกล่องรายละเอียด หรือกดปุ่ม <span class="ck">Delete</span> บนคีย์บอร์ด</p></div>
+    </div>
+    <div class="tip">💡 ตั้ง "ชื่อโต๊ะ" ให้ตรงกับที่จะใช้ในไฟล์รายชื่อแขก (เช่น "โต๊ะจีน 1") — ระบบจะจับคู่โต๊ะกับรายชื่อแขกด้วยชื่อนี้ในแท็บถัดไป</div>
+  </section>
+
+  <!-- SECTION 2 : GUESTS -->
+  <section class="guide-section" id="th-tab2">
+    <div class="sec-head"><span class="sec-num">02</span><h2>แท็บ "ข้อมูลแขก"</h2></div>
+    <p class="sec-sub">ใส่รายชื่อแขกและจับคู่กับโต๊ะ/ที่นั่งที่จัดไว้ในขั้นตอนแรก</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — ข้อมูลแขก</span></div>
+      <div class="frame-body">
+        <div class="m-panel" style="margin-top:0;">
+          <h4><span class="n">01</span>Template สำหรับใส่ข้อมูลแขก</h4>
+          <div class="m-hint">ส่งออก template (.csv เปิดได้ด้วย Excel) ที่มีรายการโต๊ะจากผังห้องปัจจุบัน พร้อมเลขที่นั่งครบทุกที่ — กรอกชื่อแขกในคอลัมน์ "ชื่อ-นามสกุล" เท่านั้น</div>
+          <span class="m-chip primary">⬇ ส่งออก template (Excel/CSV)</span>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">02</span>นำเข้าจากไฟล์ / Excel</h4>
+          <div class="m-hint">อัปโหลดไฟล์ .csv ที่กรอกชื่อแขกแล้ว เพื่อแทนที่รายชื่อแขกทั้งหมดด้านล่างในคลิกเดียว</div>
+          <span class="m-chip">📄 เลือกไฟล์...</span>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">03</span>รายชื่อแขก</h4>
+          <div class="m-statrow">
+            <div class="m-stat"><div class="v">42</div><div class="l">แขกทั้งหมด</div></div>
+            <div class="m-stat"><div class="v">5</div><div class="l">จำนวนโต๊ะที่ใช้งาน</div></div>
+            <div class="m-stat warn"><div class="v">1</div><div class="l">ที่นั่งซ้ำ</div></div>
+          </div>
+          <div class="m-tableoverview">
+            <div class="m-tchip active"><span>ทั้งหมด</span></div>
+            <div class="m-tchip"><span class="dot full"></span><span>โต๊ะจีน 1</span><span style="color:var(--muted)">10/10</span></div>
+            <div class="m-tchip"><span class="dot partial"></span><span>โต๊ะจีน 2</span><span style="color:var(--muted)">6/10</span></div>
+            <div class="m-tchip"><span class="dot over"></span><span>Long table 1</span><span style="color:var(--muted)">9/8</span></div>
+          </div>
+          <table class="m-table">
+            <thead><tr><th>ชื่อ-นามสกุล</th><th>โต๊ะ</th><th>เลขที่นั่ง</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>คุณสมชาย ใจดี</td><td>โต๊ะจีน 1</td><td>1</td><td class="del">✕</td></tr>
+              <tr><td>คุณสมหญิง มีสุข</td><td>โต๊ะจีน 1</td><td>2</td><td class="del">✕</td></tr>
+              <tr class="dup"><td>คุณวิชัย ศรีสุข</td><td>Long table 1</td><td>4</td><td class="del">✕</td></tr>
+              <tr class="dup"><td>คุณอรุณี พงษ์ทอง</td><td>Long table 1</td><td>4</td><td class="del">✕</td></tr>
+              <tr><td>คุณกิตติ เจริญพร</td><td>โต๊ะจีน 2</td><td>1</td><td class="del">✕</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;"><span class="m-chip">+ เพิ่มแขก</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">⬇</span><p><b>ส่งออก template</b> — ปุ่ม "ส่งออก template" จะให้ไฟล์ .csv ที่มีชื่อโต๊ะและเลขที่นั่งครบทุกที่นั่งจากผังห้องปัจจุบันมาให้อัตโนมัติ เปิดด้วย Excel แล้วพิมพ์ชื่อแขกลงในคอลัมน์เดียว — แถวไหนไม่กรอกชื่อจะถูกข้ามตอนนำเข้า</p></div>
+      <div class="callout"><span class="cbullet">⬆</span><p><b>นำเข้าจากไฟล์</b> — อัปโหลดไฟล์ .csv ที่กรอกแล้ว ระบบจะแทนที่รายชื่อแขกทั้งหมดด้วยข้อมูลในไฟล์ (ถามยืนยันก่อนเสมอถ้ามีรายชื่อเดิมอยู่ และย้อนกลับได้ด้วย <span class="ck">Ctrl+Z</span> หากนำเข้าผิดไฟล์)</p></div>
+      <div class="callout"><span class="cbullet">✎</span><p><b>แก้ไขในตาราง</b> — พิมพ์แก้ชื่อ/โต๊ะ/ที่นั่งได้โดยตรงในตาราง หรือกด "+ เพิ่มแขก" เพื่อเพิ่มทีละคนโดยไม่ต้องใช้ไฟล์เลย</p></div>
+      <div class="callout"><span class="cbullet">⚠</span><p><b>ที่นั่งซ้ำ</b> — ถ้ามีแขก 2 คนถูกกำหนดที่นั่งเดียวกันในโต๊ะเดียวกัน ช่องนั้นจะไฮไลต์สีแดงให้เห็นทันที ก่อนพิมพ์ที่นั่งชนกันโดยไม่รู้ตัว</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 : PREVIEW -->
+  <section class="guide-section" id="th-tab3">
+    <div class="sec-head"><span class="sec-num">03</span><h2>แท็บ "ดูตัวอย่าง"</h2></div>
+    <p class="sec-sub">ตรวจสอบผังจากมุมมองแขก — ค้นหาชื่อ หรือคลิกโต๊ะบนผังเพื่อดูว่าใครนั่งที่ไหน</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — ดูตัวอย่าง</span></div>
+      <div class="frame-body">
+        <div class="m-panel" style="margin-top:0;">
+          <h4><span class="n">01</span>ค้นหาชื่อแขก</h4>
+          <div class="m-banner">ℹ ข้อมูลนี้บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น กด "ส่งออกไฟล์" เป็นระยะเพื่อสำรองข้อมูล</div>
+          <div class="m-search"><span class="sicon">🔍</span><input readonly value="สมชาย" /></div>
+          <div class="m-resultrow"><span class="rname">คุณสมชาย ใจดี</span><span class="rtable">โต๊ะจีน 1 · ที่นั่ง 1</span></div>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">02</span>ผังห้อง</h4>
+          <div class="m-hint">คลิกที่โต๊ะเพื่อดูรายชื่อแขกที่นั่งอยู่</div>
+          <div class="m-canvas" style="height:200px;">
+            <div class="m-obj stage" style="left:20px; top:12px; width:130px; height:28px;"><span class="l1">เวที</span></div>
+            <div class="m-obj round glow" style="left:30px; top:64px; width:64px; height:64px;"><span class="l1">โต๊ะจีน 1</span></div>
+            <div class="m-obj round" style="left:120px; top:130px; width:58px; height:58px;"><span class="l1">โต๊ะจีน 2</span></div>
+            <div class="m-obj long" style="left:200px; top:50px; width:96px; height:36px;"><span class="l1">Long table 1</span></div>
+          </div>
+          <div class="m-modal-wrap">
+            <div class="m-modal">
+              <h6>โต๊ะจีน 1</h6>
+              <div class="cap">1 / 10 ที่นั่ง</div>
+              <ul class="m-glist">
+                <li><span>คุณสมชาย ใจดี</span><span class="seatno">ที่นั่ง 1</span></li>
+                <li><span class="empty">(ว่าง)</span><span class="seatno">ที่นั่ง 2</span></li>
+                <li><span class="empty">(ว่าง)</span><span class="seatno">ที่นั่ง 3</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">🔍</span><p><b>ค้นหาแขก</b> — พิมพ์ชื่อในช่องค้นหา แล้วคลิกผลลัพธ์เพื่อไฮไลต์โต๊ะบนผังพร้อมเปิดรายชื่อแขกทั้งหมดที่นั่งโต๊ะนั้น</p></div>
+      <div class="callout"><span class="cbullet">🖱</span><p><b>ดูผังห้อง</b> — คลิกที่โต๊ะบนผังโดยตรง ก็เปิดดูรายชื่อแขกที่นั่งอยู่ ณ โต๊ะนั้นได้เช่นกัน</p></div>
+    </div>
+    <div class="tip">💡 แท็บนี้คือหน้าตาที่ "seating-display" (แอปคู่กันสำหรับแขกในงาน) จะใช้แสดงผล — ลองเช็กในแท็บนี้ก่อนว่าทุกอย่างถูกต้อง ก่อนส่งออกไฟล์ไปใช้จริง</div>
+  </section>
+
+  <!-- SECTION 4 : TOPBAR -->
+  <section class="guide-section" id="th-topbar">
+    <div class="sec-head"><span class="sec-num">04</span><h2>เมนูส่วนกลาง (ใช้ได้ทุกแท็บ)</h2></div>
+    <p class="sec-sub">แถบเครื่องมือด้านบนของแอป ใช้งานได้เหมือนกันไม่ว่าจะอยู่แท็บไหน</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — เมนูส่วนกลาง</span></div>
+      <div class="frame-body">
+        <div class="m-topbar">
+          <div class="m-brand">
+            <div class="m-brand-mark"></div>
+            <div><div class="m-eyebrow">ผังงาน / จัดที่นั่ง</div><div class="m-h1">seating plant</div></div>
+          </div>
+          <div class="m-topbar-controls">
+            <div class="m-tabs">
+              <span class="m-tab active">✎ แก้ไขผังห้อง</span><span class="m-tab">☰ ข้อมูลแขก</span><span class="m-tab">🔍 ดูตัวอย่าง</span>
+            </div>
+            <div class="m-toolbar">
+              <span class="m-chip icon">🔍</span>
+              <span class="m-chip icon">↶</span>
+              <span class="m-chip icon">↷</span>
+              <span class="m-sep"></span>
+              <span class="m-chip">❔ วิธีใช้งาน</span>
+              <span class="m-chip">🎨 ธีมสี</span>
+              <span class="m-chip">⬇ ส่งออกไฟล์</span>
+              <span class="m-chip">⬆ นำเข้าไฟล์</span>
+              <span class="m-chip danger">🗑 ล้างแคช</span>
+              <div class="m-lang"><span class="active">TH</span><span>EN</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">🔍</span><p><b>ค้นหาแขก</b> — ค้นหาชื่อแขกได้จากทุกแท็บ ไม่ต้องสลับไปแท็บ "ดูตัวอย่าง" ก่อน คลิกผลลัพธ์เพื่อสลับแท็บและไฮไลต์โต๊ะให้อัตโนมัติ</p></div>
+      <div class="callout"><span class="cbullet">↶</span><p><b>ย้อนกลับ / ทำซ้ำ</b> — ใช้ได้ทั้งแท็บ "แก้ไขผังห้อง" และ "ข้อมูลแขก" (หรือกด <span class="ck">Ctrl+Z</span> / <span class="ck">Ctrl+Shift+Z</span>) ครอบคลุมทั้งการแก้ผังและการนำเข้ารายชื่อแขก</p></div>
+      <div class="callout"><span class="cbullet">❔</span><p><b>วิธีใช้งาน</b> — เปิดคู่มือใช้งานแบบละเอียดจากในแอปได้ทุกเมื่อ (เนื้อหาเดียวกับคู่มือฉบับนี้)</p></div>
+      <div class="callout"><span class="cbullet">🎨</span><p><b>ธีมสี</b> — เลือกธีมสีสำเร็จรูป 4 แบบ หรือกำหนดสีเองได้ ธีมที่เลือกจะติดไปกับไฟล์ที่ส่งออก และแสดงผลบนหน้า seating-display ด้วย</p></div>
+    </div>
+
+    <div class="themegrid">
+      <div class="themecard active"><div class="themeswatch"><span style="background:#f9eaea"></span><span style="background:#fbdcdd"></span><span style="background:#f3c6c9"></span><span style="background:#bbaad1"></span></div><div class="themecard-label">โรสควอตซ์ ✓</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#e9f2de"></span><span style="background:#92ae89"></span><span style="background:#577864"></span><span style="background:#37454f"></span></div><div class="themecard-label">เซจโทน</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#6b3f69"></span><span style="background:#8b5e8a"></span><span style="background:#a87ca0"></span><span style="background:#e0c3c5"></span></div><div class="themecard-label">พลัมเบอร์รี่</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#ebac3b"></span><span style="background:#3b6491"></span><span style="background:#1f3a5a"></span><span style="background:#4a7a8c"></span></div><div class="themecard-label">โกลด์เนวี่</div></div>
+    </div>
+
+    <div class="callouts" style="margin-top:12px;">
+      <div class="callout"><span class="cbullet">⬇</span><p><b>ส่งออกไฟล์</b> — รวมผังห้อง + รายชื่อแขก + ธีมสี เป็นไฟล์ <code class="ck">data.json</code> ไฟล์เดียว ใช้สำรองข้อมูล หรือนำไปวางไว้โฟลเดอร์เดียวกับหน้า seating-display ตอนขึ้นหน้างานจริง (หน้าแขกจะโหลดไฟล์นี้ให้อัตโนมัติ)</p></div>
+      <div class="callout"><span class="cbullet">⬆</span><p><b>นำเข้าไฟล์</b> — นำไฟล์ .json ที่เคยส่งออกไว้กลับมาแทนที่ข้อมูลปัจจุบันทั้งหมด (ระบบถามยืนยันก่อนทุกครั้ง)</p></div>
+      <div class="callout"><span class="cbullet">TH/EN</span><p><b>สลับภาษา</b> — เปลี่ยนภาษาการแสดงผลของทั้งแอประหว่างไทย/อังกฤษได้ทันที ระบบจะจำภาษาที่เลือกไว้ในเครื่องสำหรับครั้งถัดไป</p></div>
+      <div class="callout"><span class="cbullet">🗑</span><p><b>ล้างแคช</b> — ลบข้อมูลทั้งหมดที่บันทึกไว้ในเบราว์เซอร์นี้ (ลบแล้วกู้คืนไม่ได้ — ให้กด "ส่งออกไฟล์" สำรองไว้ก่อนเสมอ)</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 : TIPS -->
+  <section class="guide-section" id="th-tips">
+    <div class="sec-head"><span class="sec-num">05</span><h2>เคล็ดลับการใช้งาน</h2></div>
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">💾</span><p><b>บันทึกอัตโนมัติในเบราว์เซอร์เท่านั้น</b> — ผังห้องและรายชื่อแขกจะถูกบันทึกอัตโนมัติทุกครั้งที่แก้ไข แต่บันทึกไว้ใน "เบราว์เซอร์เครื่องนี้" เท่านั้น ถ้าล้างแคช เปลี่ยนเครื่อง หรือเปลี่ยนเบราว์เซอร์ ข้อมูลจะหายไปทันทีและกู้คืนเองไม่ได้</p></div>
+      <div class="callout"><span class="cbullet">📤</span><p><b>ส่งออกไฟล์เก็บไว้เป็นระยะ (สำคัญ)</b> — กด "ส่งออกไฟล์" (ได้ไฟล์ data.json) ทุกครั้งที่แก้ไขเสร็จเป็นรอบๆ ระหว่างทำงาน อย่ารอจนใกล้วันงานค่อยส่งออกครั้งเดียว เก็บไฟล์ไว้ในเครื่องและสำรองไว้ที่อื่นด้วย (เช่น Google Drive หรืออีเมลถึงตัวเอง) เพื่อกันข้อมูลหาย</p></div>
+      <div class="callout"><span class="cbullet">📥</span><p><b>ต้องการข้อมูลเดิมกลับคืน? ใช้ "นำเข้าไฟล์"</b> — ถ้าข้อมูลหาย เปิดเครื่อง/เบราว์เซอร์ใหม่ หรืออยากย้อนกลับไปเวอร์ชันที่เคยบันทึกไว้ ให้กด "นำเข้าไฟล์" ที่เมนูด้านบน แล้วเลือกไฟล์ data.json ที่เคยส่งออกไว้ล่าสุด ยืนยันเมื่อระบบถาม ข้อมูลทั้งหมด (ผังห้อง + รายชื่อแขก + ธีมสี) จะแทนที่ข้อมูลปัจจุบันและกลับมาเหมือนตอนส่งออกทันที — นำเข้าผิดไฟล์ก็กด <span class="ck">Ctrl+Z</span> ย้อนกลับได้</p></div>
+      <div class="callout"><span class="cbullet">🖥</span><p><b>คู่กับ seating-display</b> — เมื่อผังห้องพร้อมแล้ว นำไฟล์ data.json ที่ส่งออกไปวางไว้คู่กับแอป <a href="https://github.com/supat0417/seating-display" target="_blank" style="color:var(--gold-deep)">seating-display</a> เพื่อเปิดให้แขกค้นหาที่นั่งของตัวเองหน้างานได้</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 : SHORTCUTS -->
+  <section class="guide-section" id="th-shortcuts">
+    <div class="sec-head"><span class="sec-num">06</span><h2>คีย์ลัดที่ใช้บ่อย</h2></div>
+    <p class="sec-sub">ใช้ได้ในแท็บ "แก้ไขผังห้อง"</p>
+    <div class="kbd-grid">
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>Z</kbd></span><span class="kdesc">ย้อนกลับ</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd></span><span class="kdesc">ทำซ้ำ</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>C</kbd></span><span class="kdesc">คัดลอกวัตถุที่เลือก</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>V</kbd></span><span class="kdesc">วางวัตถุ</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Delete</kbd></span><span class="kdesc">ลบวัตถุที่เลือก</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+scroll</span><span class="kdesc">ซูมเข้า/ออก</span></div>
+    </div>
+  </section>
+
+  <div class="footer-note">คู่มือนี้จัดทำจากซอร์สโค้ดจริงของโปรเจกต์ <b>seating-plan-app</b> (React + TypeScript + Vite)<br/>หน้าตาแอปจริงอาจต่างจากภาพประกอบเล็กน้อยตามธีมสีที่เลือก</div>
+
+</div>
+</main>
+
+<!-- =========================================================== ENGLISH =========================================================== -->
+<main class="lang-block" id="block-en">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="brandmark"></div>
+    <div class="eyebrow">Floor plan / seating</div>
+    <h1>How to Use seating plant</h1>
+    <p class="lede">A drag-and-drop event seating-plan tool — arrange tables, set seat counts, add your guest list, and export a single file your on-site guest display can use immediately. Runs entirely in the browser: nothing to install, no technical background required.</p>
+  </div>
+
+  <div class="warn-banner">
+    <div class="wb-head">⚠️ Don't forget: export a file regularly — your data lives in this browser only</div>
+    <p>The app autosaves your floor plan and guest list, but only <b>inside this one browser on this one device</b>. Clear the cache, switch devices or browsers, or run into a browser problem, and everything is gone for good — there's no way to recover it after the fact. Make these 3 habits:</p>
+    <ol>
+      <li>Every time you finish a round of edits to the floor plan or guest list, click <b>"Export"</b> in the top menu. You'll get a <span class="ck">data.json</span> file — keep it on your device, and back it up somewhere else too, like Google Drive, an email to yourself, or a USB drive.</li>
+      <li>If you ever open the app and find your data missing, or you're continuing on a different device or browser, click <b>"Import"</b> and pick the most recent data.json you exported. Confirm the prompt, and everything (floor plan + guest list + theme) comes back exactly as it was.</li>
+      <li>If you import the wrong file or confirm by mistake, press <span class="ck">Ctrl+Z</span> to undo it immediately.</li>
+    </ol>
+  </div>
+
+  <div class="toc">
+    <a href="#en-tab1">1. Edit Floor Plan</a>
+    <a href="#en-tab2">2. Guest List</a>
+    <a href="#en-tab3">3. Preview</a>
+    <a href="#en-topbar">Top Menu</a>
+    <a href="#en-tips">Tips</a>
+    <a href="#en-shortcuts">Shortcuts</a>
+  </div>
+
+  <div class="steps3">
+    <div class="step3-card"><div class="num">01</div><h3>Arrange the room</h3><p>Drag tables, a stage, and doors onto the plan</p></div>
+    <div class="step3-card"><div class="num">02</div><h3>Add your guests</h3><p>Type them in, or import from Excel/CSV</p></div>
+    <div class="step3-card"><div class="num">03</div><h3>Preview &amp; export</h3><p>Check the plan, then export a file for the venue</p></div>
+  </div>
+
+  <!-- SECTION 1 : EDIT -->
+  <section class="guide-section" id="en-tab1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>"Edit Floor Plan" tab</h2></div>
+    <p class="sec-sub">Where every event starts — lay out tables, the stage, and doors to match the real venue.</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — Edit Floor Plan</span></div>
+      <div class="frame-body">
+        <div class="m-topbar">
+          <div class="m-topbar-controls">
+            <div class="m-tabs">
+              <span class="m-tab active">✎ Edit Floor Plan</span>
+              <span class="m-tab">☰ Guest List</span>
+              <span class="m-tab">🔍 Preview</span>
+            </div>
+          </div>
+        </div>
+        <div class="m-panel" style="margin-top:14px;">
+          <h4><span class="n">01</span>Arrange Layout</h4>
+          <div class="m-hint">Drag an icon onto the floor plan, or click to add it at a random position</div>
+          <div class="m-objpicker">
+            <div class="m-objcard"><div class="shape round"></div><span class="lbl">Round table (Chinese-style)</span></div>
+            <div class="m-objcard"><div class="shape long"></div><span class="lbl">Long table</span></div>
+            <div class="m-objcard"><div class="shape stage"></div><span class="lbl">Stage</span></div>
+            <div class="m-objcard"><div class="shape door"></div><span class="lbl">Door</span></div>
+          </div>
+          <div class="m-zoomrow">
+            <span class="zbtn">−</span><span class="zlabel">100%</span><span class="zbtn">+</span>
+            <span class="m-chip">⤢ Fit to screen</span>
+            <span class="zhint">Ctrl + scroll wheel to zoom</span>
+          </div>
+          <div class="m-layout">
+            <div class="m-canvas">
+              <div class="m-obj stage" style="left:24px; top:14px; width:150px; height:34px;"><span class="l1">Stage</span></div>
+              <div class="m-obj round selected" style="left:36px; top:78px; width:78px; height:78px;">
+                <div class="m-rotate-line"></div><div class="m-rotate"></div>
+                <span class="l1">Round table 1</span><span class="l2">10 seats</span>
+                <div class="m-resize"></div>
+              </div>
+              <div class="m-obj round" style="left:140px; top:170px; width:70px; height:70px;"><span class="l1">Round table 2</span><span class="l2">10 seats</span></div>
+              <div class="m-obj long" style="left:230px; top:60px; width:110px; height:44px;"><span class="l1">Long table 1</span><span class="l2">8 seats</span></div>
+              <div class="m-obj door" style="right:14px; top:110px; width:16px; height:60px;"></div>
+            </div>
+            <div class="m-side">
+              <h5>Details</h5>
+              <label>Table name / number</label><div class="fake-input">Round table 1</div>
+              <label>Seats per table</label><div class="fake-input">10</div>
+              <div class="row2">
+                <div><label>Width (px)</label><div class="fake-input">140</div></div>
+                <div><label>Height (px)</label><div class="fake-input">140</div></div>
+              </div>
+              <div class="del-btn">Delete object</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">+</span><p><b>Add an object</b> — Drag an icon (Round table, Long table, Stage, Door) from the panel onto the plan, or click an icon to add it automatically at a random position.</p></div>
+      <div class="callout"><span class="cbullet">⇄</span><p><b>Move an object</b> — Click and hold an object, then drag it. Gold guide lines snap it to the center or align it with nearby objects automatically.</p></div>
+      <div class="callout"><span class="cbullet">▦</span><p><b>Select multiple</b> — Drag across empty space on the plan to select several objects at once, then drag any selected object to move the whole group together.</p></div>
+      <div class="callout"><span class="cbullet">⤡</span><p><b>Resize / rotate</b> — Click a single object to select it; a gold handle appears at the bottom-right corner to resize, and a rotation control appears in the "Details" panel on the right (Long table, Stage, and Door only).</p></div>
+      <div class="callout"><span class="cbullet">✎</span><p><b>Edit table name / seat count</b> — Click an object and edit its values in the "Details" panel on the right; changes save automatically.</p></div>
+      <div class="callout"><span class="cbullet">✕</span><p><b>Delete an object</b> — Select it and click "Delete object" in the details panel, or press <span class="ck">Delete</span> on your keyboard.</p></div>
+    </div>
+    <div class="tip">💡 Name each table the way it'll appear in your guest list (e.g. "Round table 1") — the app matches guests to tables by this exact name in the next tab.</div>
+  </section>
+
+  <!-- SECTION 2 : GUESTS -->
+  <section class="guide-section" id="en-tab2">
+    <div class="sec-head"><span class="sec-num">02</span><h2>"Guest List" tab</h2></div>
+    <p class="sec-sub">Add your guests and match them to the tables and seats you just arranged.</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — Guest List</span></div>
+      <div class="frame-body">
+        <div class="m-panel" style="margin-top:0;">
+          <h4><span class="n">01</span>Guest Data Template</h4>
+          <div class="m-hint">Export a template (.csv, opens in Excel) listing every table from the current floor plan with a row for each seat — just fill in the "Full name" column.</div>
+          <span class="m-chip primary">⬇ Export template (Excel/CSV)</span>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">02</span>Import from File / Excel</h4>
+          <div class="m-hint">Upload the filled-in .csv file to replace the whole guest list below in one click.</div>
+          <span class="m-chip">📄 Choose file...</span>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">03</span>Guest List</h4>
+          <div class="m-statrow">
+            <div class="m-stat"><div class="v">42</div><div class="l">Total guests</div></div>
+            <div class="m-stat"><div class="v">5</div><div class="l">Tables in use</div></div>
+            <div class="m-stat warn"><div class="v">1</div><div class="l">Seat conflicts</div></div>
+          </div>
+          <div class="m-tableoverview">
+            <div class="m-tchip active"><span>All</span></div>
+            <div class="m-tchip"><span class="dot full"></span><span>Round table 1</span><span style="color:var(--muted)">10/10</span></div>
+            <div class="m-tchip"><span class="dot partial"></span><span>Round table 2</span><span style="color:var(--muted)">6/10</span></div>
+            <div class="m-tchip"><span class="dot over"></span><span>Long table 1</span><span style="color:var(--muted)">9/8</span></div>
+          </div>
+          <table class="m-table">
+            <thead><tr><th>Full name</th><th>Table</th><th>Seat No.</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Somchai Jaidee</td><td>Round table 1</td><td>1</td><td class="del">✕</td></tr>
+              <tr><td>Somying Meesuk</td><td>Round table 1</td><td>2</td><td class="del">✕</td></tr>
+              <tr class="dup"><td>Wichai Srisuk</td><td>Long table 1</td><td>4</td><td class="del">✕</td></tr>
+              <tr class="dup"><td>Arunee Pongthong</td><td>Long table 1</td><td>4</td><td class="del">✕</td></tr>
+              <tr><td>Kitti Charoenporn</td><td>Round table 2</td><td>1</td><td class="del">✕</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;"><span class="m-chip">+ Add guest</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">⬇</span><p><b>Export template</b> — "Export template" downloads a .csv pre-filled with every table name and seat number from the current floor plan. Open it in Excel and type names into that one column — any row left blank is skipped on import.</p></div>
+      <div class="callout"><span class="cbullet">⬆</span><p><b>Import from file</b> — Upload the filled-in .csv and the app replaces the entire guest list with it (you'll be asked to confirm if a list already exists, and you can undo with <span class="ck">Ctrl+Z</span> if you imported the wrong file).</p></div>
+      <div class="callout"><span class="cbullet">✎</span><p><b>Edit in the table</b> — Type directly into the name/table/seat cells, or click "+ Add guest" to add people one at a time without a file.</p></div>
+      <div class="callout"><span class="cbullet">⚠</span><p><b>Seat conflicts</b> — If two guests share the same seat at the same table, that cell is highlighted red right away, before you send it out with a mistake.</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 : PREVIEW -->
+  <section class="guide-section" id="en-tab3">
+    <div class="sec-head"><span class="sec-num">03</span><h2>"Preview" tab</h2></div>
+    <p class="sec-sub">Check the plan from a guest's point of view — search a name or click a table to see who sits where.</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — Preview</span></div>
+      <div class="frame-body">
+        <div class="m-panel" style="margin-top:0;">
+          <h4><span class="n">01</span>Search Guests</h4>
+          <div class="m-banner">ℹ This data is saved in this browser only — click "Export" above regularly to back it up as a file</div>
+          <div class="m-search"><span class="sicon">🔍</span><input readonly value="Somchai" /></div>
+          <div class="m-resultrow"><span class="rname">Somchai Jaidee</span><span class="rtable">Round table 1 · Seat 1</span></div>
+        </div>
+        <div class="m-panel">
+          <h4><span class="n">02</span>Floor Plan</h4>
+          <div class="m-hint">Click a table to see who is seated there</div>
+          <div class="m-canvas" style="height:200px;">
+            <div class="m-obj stage" style="left:20px; top:12px; width:130px; height:28px;"><span class="l1">Stage</span></div>
+            <div class="m-obj round glow" style="left:30px; top:64px; width:64px; height:64px;"><span class="l1">Round table 1</span></div>
+            <div class="m-obj round" style="left:120px; top:130px; width:58px; height:58px;"><span class="l1">Round table 2</span></div>
+            <div class="m-obj long" style="left:200px; top:50px; width:96px; height:36px;"><span class="l1">Long table 1</span></div>
+          </div>
+          <div class="m-modal-wrap">
+            <div class="m-modal">
+              <h6>Round table 1</h6>
+              <div class="cap">1 / 10 seats</div>
+              <ul class="m-glist">
+                <li><span>Somchai Jaidee</span><span class="seatno">Seat 1</span></li>
+                <li><span class="empty">(Empty)</span><span class="seatno">Seat 2</span></li>
+                <li><span class="empty">(Empty)</span><span class="seatno">Seat 3</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">🔍</span><p><b>Search guests</b> — Type a name in the search box, then click a result to highlight that table on the plan and open the full guest list for it.</p></div>
+      <div class="callout"><span class="cbullet">🖱</span><p><b>View the floor plan</b> — Click a table directly on the plan to open the list of guests seated there.</p></div>
+    </div>
+    <div class="tip">💡 This is exactly what "seating-display" (the companion app guests use on-site) shows — check this tab before exporting to make sure everything's right.</div>
+  </section>
+
+  <!-- SECTION 4 : TOPBAR -->
+  <section class="guide-section" id="en-topbar">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Top menu (available on every tab)</h2></div>
+    <p class="sec-sub">The toolbar at the top of the app works the same no matter which tab you're on.</p>
+
+    <div class="frame">
+      <div class="frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="fb-label">seating plant — top menu</span></div>
+      <div class="frame-body">
+        <div class="m-topbar">
+          <div class="m-brand">
+            <div class="m-brand-mark"></div>
+            <div><div class="m-eyebrow">Floor plan / seating</div><div class="m-h1">seating plant</div></div>
+          </div>
+          <div class="m-topbar-controls">
+            <div class="m-tabs">
+              <span class="m-tab active">✎ Edit Floor Plan</span><span class="m-tab">☰ Guest List</span><span class="m-tab">🔍 Preview</span>
+            </div>
+            <div class="m-toolbar">
+              <span class="m-chip icon">🔍</span>
+              <span class="m-chip icon">↶</span>
+              <span class="m-chip icon">↷</span>
+              <span class="m-sep"></span>
+              <span class="m-chip">❔ How to use</span>
+              <span class="m-chip">🎨 Theme</span>
+              <span class="m-chip">⬇ Export</span>
+              <span class="m-chip">⬆ Import</span>
+              <span class="m-chip danger">🗑 Clear cache</span>
+              <div class="m-lang"><span>TH</span><span class="active">EN</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">🔍</span><p><b>Search guests</b> — Search for a guest from any tab, not just Preview. Click a result to jump to the Preview tab and highlight their table automatically.</p></div>
+      <div class="callout"><span class="cbullet">↶</span><p><b>Undo / Redo</b> — Works in both "Edit Floor Plan" and "Guest List" (or press <span class="ck">Ctrl+Z</span> / <span class="ck">Ctrl+Shift+Z</span>), covering both floor plan edits and guest list imports.</p></div>
+      <div class="callout"><span class="cbullet">❔</span><p><b>How to use</b> — Opens this same detailed guide from inside the app, any time.</p></div>
+      <div class="callout"><span class="cbullet">🎨</span><p><b>Theme</b> — Pick from 4 ready-made color themes, or set your own custom colors. The theme travels with the exported file and also shows on the seating-display page.</p></div>
+    </div>
+
+    <div class="themegrid">
+      <div class="themecard active"><div class="themeswatch"><span style="background:#f9eaea"></span><span style="background:#fbdcdd"></span><span style="background:#f3c6c9"></span><span style="background:#bbaad1"></span></div><div class="themecard-label">Rose Quartz ✓</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#e9f2de"></span><span style="background:#92ae89"></span><span style="background:#577864"></span><span style="background:#37454f"></span></div><div class="themecard-label">Sage</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#6b3f69"></span><span style="background:#8b5e8a"></span><span style="background:#a87ca0"></span><span style="background:#e0c3c5"></span></div><div class="themecard-label">Plum Berry</div></div>
+      <div class="themecard"><div class="themeswatch"><span style="background:#ebac3b"></span><span style="background:#3b6491"></span><span style="background:#1f3a5a"></span><span style="background:#4a7a8c"></span></div><div class="themecard-label">Gold Navy</div></div>
+    </div>
+
+    <div class="callouts" style="margin-top:12px;">
+      <div class="callout"><span class="cbullet">⬇</span><p><b>Export</b> — Bundles the floor plan + guest list + theme into a single <code class="ck">data.json</code> file. Use it as a backup, or place it right next to the seating-display page when it's time to deploy (the guest page loads it automatically).</p></div>
+      <div class="callout"><span class="cbullet">⬆</span><p><b>Import</b> — Brings back a previously exported .json file, replacing all current data (you'll always be asked to confirm first).</p></div>
+      <div class="callout"><span class="cbullet">TH/EN</span><p><b>Switch language</b> — Flip the whole app between Thai and English instantly; your choice is remembered on this device for next time.</p></div>
+      <div class="callout"><span class="cbullet">🗑</span><p><b>Clear cache</b> — Deletes everything saved in this browser (cannot be undone — always click "Export" to back up first).</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 : TIPS -->
+  <section class="guide-section" id="en-tips">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Good habits</h2></div>
+    <div class="callouts">
+      <div class="callout"><span class="cbullet">💾</span><p><b>Autosaves to this browser only</b> — the floor plan and guest list save automatically as you edit, but only in this browser on this device. Clearing your cache, or switching device or browser, loses that data for good — it can't be recovered afterward.</p></div>
+      <div class="callout"><span class="cbullet">📤</span><p><b>Export regularly (important)</b> — click "Export" (you get a data.json file) every time you finish a round of edits, not just once right before the event. Keep the file on your device and back it up elsewhere too (Google Drive, an email to yourself) so a lost or wiped browser never costs you the work.</p></div>
+      <div class="callout"><span class="cbullet">📥</span><p><b>Need your old data back? Use "Import"</b> — if data goes missing, you're on a new device or browser, or you want to roll back to a version you saved earlier, click "Import" in the top menu and pick the most recent data.json you exported. Confirm the prompt and everything (floor plan + guest list + theme) replaces the current data and comes back exactly as it was when exported — imported the wrong file? Press <span class="ck">Ctrl+Z</span> to undo.</p></div>
+      <div class="callout"><span class="cbullet">🖥</span><p><b>Pairs with seating-display</b> — once the plan is ready, place the exported data.json alongside the <a href="https://github.com/supat0417/seating-display" target="_blank" style="color:var(--gold-deep)">seating-display</a> app so guests can look up their own seat on the day.</p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 : SHORTCUTS -->
+  <section class="guide-section" id="en-shortcuts">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Handy keyboard shortcuts</h2></div>
+    <p class="sec-sub">Available in the "Edit Floor Plan" tab</p>
+    <div class="kbd-grid">
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>Z</kbd></span><span class="kdesc">Undo</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd></span><span class="kdesc">Redo</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>C</kbd></span><span class="kdesc">Copy selected object</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+<kbd>V</kbd></span><span class="kdesc">Paste object</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Delete</kbd></span><span class="kdesc">Delete selected object</span></div>
+      <div class="kbd-row"><span class="kk"><kbd>Ctrl</kbd>+scroll</span><span class="kdesc">Zoom in/out</span></div>
+    </div>
+  </section>
+
+  <div class="footer-note">This guide was built from the actual source code of the <b>seating-plan-app</b> project (React + TypeScript + Vite).<br/>The real app may look slightly different depending on the color theme you pick.</div>
+
+</div>
+</main>
+
+<script>
+function setLang(lang){
+  document.getElementById('block-th').classList.toggle('active', lang === 'th');
+  document.getElementById('block-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === lang); });
+  window.scrollTo({top:0, behavior:'instant'});
+}
+</script>
+</body>
+</html>

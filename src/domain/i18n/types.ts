@@ -35,9 +35,6 @@ export interface Dictionary {
   langToggleTitle: string;
   helpBtn: string;
   helpBtnTitle: string;
-  helpTitle: string;
-  helpSubtitle: string;
-  helpContent: string;
 
   panelAddObjectTitle: string;
   panelAddObjectHint: string;
