@@ -128,7 +128,8 @@ export function FloorplanCanvas({
     });
   }, [setGuides, toLocal]);
 
-  const onObjPointerUp = useCallback(() => {
+  const onObjPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const ds = dragState.current;
     dragState.current = null;
     setGuides(null, null);
@@ -168,7 +169,8 @@ export function FloorplanCanvas({
     (rs as ResizeState & { lastW?: number; lastH?: number }).lastH = h;
   }, [zoom]);
 
-  const onResizePointerUp = useCallback(() => {
+  const onResizePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const rs = resizeState.current as (ResizeState & { lastW?: number; lastH?: number }) | null;
     resizeState.current = null;
     if (!rs || !rs.changed) return;
@@ -210,7 +212,8 @@ export function FloorplanCanvas({
     (rs as RotateState & { lastDeg?: number }).lastDeg = snap.deg;
   }, [toLocal]);
 
-  const onRotatePointerUp = useCallback(() => {
+  const onRotatePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const rs = rotateState.current as (RotateState & { lastDeg?: number }) | null;
     rotateState.current = null;
     if (!rs || !rs.changed) return;
