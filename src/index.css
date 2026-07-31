@@ -24,6 +24,7 @@
 }
 * { box-sizing: border-box; }
 html { background: var(--cream); }
+html, body { max-width: 100%; overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--cream);
@@ -34,13 +35,16 @@ body {
 #root { min-height: 100vh; }
 .brand-strip { height: 3px; width: 100%; background: var(--gold); }
 #app { max-width: 1280px; margin: 0 auto; padding: 24px 20px 60px; }
+@media (max-width: 640px) { #app { padding: 14px 12px 40px; } }
 
 .topbar {
   display: flex; flex-direction: column; gap: 14px;
   background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
   box-shadow: var(--shadow-sm); padding: 16px 22px; margin-bottom: 22px;
 }
+@media (max-width: 640px) { .topbar { padding: 14px; } }
 .topbar-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+@media (max-width: 640px) { .topbar-controls { flex-direction: column; align-items: stretch; gap: 12px; } }
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand-mark {
   width: 42px; height: 42px; border-radius: 10px; flex: none;
@@ -50,15 +54,20 @@ body {
 }
 .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--gold-deep); text-transform: uppercase; font-weight: 600; }
 h1 { font-size: 22px; font-weight: 700; margin: 2px 0 0; letter-spacing: 0.01em; color: var(--navy); }
-.tabs { display: flex; gap: 3px; background: var(--paper-soft); padding: 4px; border-radius: 10px; border: 1px solid var(--line); }
+.tabs {
+  display: flex; gap: 3px; background: var(--paper-soft); padding: 4px; border-radius: 10px; border: 1px solid var(--line);
+  max-width: 100%; overflow-x: auto; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
 .tab-btn {
   font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--muted);
   background: transparent; border: none; padding: 9px 15px; border-radius: 7px;
-  cursor: pointer; transition: all .15s ease; white-space: nowrap;
+  cursor: pointer; transition: all .15s ease; white-space: nowrap; flex: none;
   display: inline-flex; align-items: center; gap: 7px;
 }
 .tab-btn.active { background: var(--navy); color: var(--gold); box-shadow: var(--shadow-sm); }
 .tab-btn:hover:not(.active) { color: var(--navy); background: var(--slate-soft); }
+@media (max-width: 640px) { .tab-btn { padding: 9px 9px; font-size: 12px; gap: 5px; } }
 
 .lang-toggle { display: flex; gap: 2px; background: var(--paper-soft); padding: 3px; border-radius: 8px; border: 1px solid var(--line); }
 .lang-opt {
