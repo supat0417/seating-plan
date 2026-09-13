@@ -63,7 +63,7 @@ export function Topbar() {
     const themeOut: ExportedTheme = state.theme === 'custom'
       ? { id: 'custom', colors: [state.customColors.c60, state.customColors.c25, state.customColors.c10, state.customColors.c5] }
       : state.theme;
-    const data = buildExportData({ floorplan: state.floorplan, guests: state.guests, theme: themeOut, lang });
+    const data = buildExportData({ floorplan: state.floorplan, guests: state.guests, theme: themeOut, lang, logo: state.logo });
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -94,6 +94,7 @@ export function Topbar() {
         type: 'IMPORT_DATA',
         floorplan: parsed.floorplanRaw ? normalizeImportedFloorplan(parsed.floorplanRaw) : undefined,
         guests: parsed.guestsRaw ? normalizeImportedGuests(parsed.guestsRaw) : undefined,
+        logo: parsed.logo,
       });
       if (parsed.theme !== undefined) {
         const resolved = resolveImportedTheme(parsed.theme);

@@ -5,6 +5,7 @@ import { isHexColor, type CustomThemeColors } from '../domain/theme';
 
 const FLOORPLAN_KEY = 'floorplan-v1';
 const GUESTS_KEY = 'guests-v1';
+const LOGO_KEY = 'seating-plan-logo';
 const THEME_KEY = 'seating-plan-theme';
 const CUSTOM_THEME_KEY = 'seating-plan-custom-theme';
 
@@ -39,6 +40,24 @@ export function loadGuests(): Guest[] {
 export function saveGuests(guests: Guest[]): void {
   try {
     localStorage.setItem(GUESTS_KEY, JSON.stringify(guests));
+  } catch {
+    /* ignore */
+  }
+}
+
+export function loadLogo(): string | null {
+  try {
+    const logo = localStorage.getItem(LOGO_KEY);
+    return logo && /^data:image\//.test(logo) ? logo : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveLogo(logo: string | null): void {
+  try {
+    if (logo) localStorage.setItem(LOGO_KEY, logo);
+    else localStorage.removeItem(LOGO_KEY);
   } catch {
     /* ignore */
   }
@@ -88,6 +107,7 @@ export function clearAllPlanStorage(): void {
   try {
     localStorage.removeItem(FLOORPLAN_KEY);
     localStorage.removeItem(GUESTS_KEY);
+    localStorage.removeItem(LOGO_KEY);
     localStorage.removeItem(THEME_KEY);
     localStorage.removeItem(CUSTOM_THEME_KEY);
   } catch {

@@ -32,6 +32,11 @@ export interface Dictionary {
   themeRoleAccent: string;
   themeRoleInk: string;
   themeAppliedPreviewTitle: string;
+  logoTitle: string;
+  logoHint: string;
+  logoChoose: string;
+  logoRemove: string;
+  logoInvalid: string;
   langToggleTitle: string;
   helpBtn: string;
   helpBtnTitle: string;

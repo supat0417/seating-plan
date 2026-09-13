@@ -12,6 +12,7 @@ export interface SeatingDataFile {
   exportedAt: string;
   theme: ExportedTheme;
   lang: 'th' | 'en';
+  logo: string | null;
   floorplan: FloorplanObject[];
   guests: Guest[];
 }
@@ -21,12 +22,14 @@ export function buildExportData(input: {
   guests: Guest[];
   theme: ExportedTheme;
   lang: 'th' | 'en';
+  logo: string | null;
 }): SeatingDataFile {
   return {
     version: 2,
     exportedAt: new Date().toISOString(),
     theme: input.theme,
     lang: input.lang,
+    logo: input.logo,
     floorplan: input.floorplan,
     guests: input.guests,
   };
@@ -36,6 +39,7 @@ export interface ParsedImport {
   floorplanRaw: unknown[] | null;
   guestsRaw: unknown[] | null;
   theme: ExportedTheme | undefined; // undefined = key absent entirely
+  logo: string | null | undefined;
 }
 
 export type ImportParseError = 'badJson' | 'noData' | 'badFloorplan' | 'badGuest';
@@ -77,6 +81,9 @@ export function parseImportJson(raw: string): ParsedImport | { error: ImportPars
     floorplanRaw: Array.isArray(fpArr) ? fpArr : null,
     guestsRaw: Array.isArray(gArr) ? gArr : null,
     theme: !isBareArray && obj && 'theme' in obj ? (obj.theme as ExportedTheme) : undefined,
+    logo: !isBareArray && obj && 'logo' in obj
+      ? (typeof obj.logo === 'string' && /^data:image\//.test(obj.logo) ? obj.logo : null)
+      : undefined,
   };
 }
 

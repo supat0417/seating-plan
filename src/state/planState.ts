@@ -9,6 +9,7 @@ export type Mode = 'edit' | 'guests' | 'view';
 export interface PlanState {
   floorplan: FloorplanObject[];
   guests: Guest[];
+  logo: string | null;
   selectedIds: string[];
   mode: Mode;
   idCounter: number;
@@ -27,6 +28,7 @@ export function createInitialState(lang: Lang): PlanState {
   return {
     floorplan: [],
     guests: [],
+    logo: null,
     selectedIds: [],
     mode: 'edit',
     idCounter: 1,
@@ -45,10 +47,11 @@ export function createInitialState(lang: Lang): PlanState {
 export interface Snapshot {
   floorplan: FloorplanObject[];
   guests: Guest[];
+  logo: string | null;
 }
 
 export function snapshotOf(state: PlanState): string {
-  return JSON.stringify({ floorplan: state.floorplan, guests: state.guests });
+  return JSON.stringify({ floorplan: state.floorplan, guests: state.guests, logo: state.logo });
 }
 
 export function nextObjectId(counter: number): string {

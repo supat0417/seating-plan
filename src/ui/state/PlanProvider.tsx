@@ -3,7 +3,7 @@ import { planReducer, type PlanAction } from '../../state/planReducer';
 import { createInitialState, type PlanState } from '../../state/planState';
 import { nextIdCounter } from '../../domain/jsonSchema';
 import {
-  loadFloorplan, saveFloorplan, loadGuests, saveGuests,
+  loadFloorplan, saveFloorplan, loadGuests, saveGuests, loadLogo, saveLogo,
   loadTheme, saveTheme, loadCustomColors, saveCustomColors, clearAllPlanStorage,
 } from '../../infrastructure/storage';
 import { loadLang, saveLang } from '../../domain/i18n';
@@ -54,6 +54,11 @@ export function PlanEffects() {
 
   useEffect(() => {
     if (!state.hydrated) return;
+    saveLogo(state.logo);
+  }, [state.logo, state.hydrated]);
+
+  useEffect(() => {
+    if (!state.hydrated) return;
     saveTheme(state.theme);
   }, [state.theme, state.hydrated]);
 
@@ -92,9 +97,10 @@ export function PlanProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const floorplan = loadFloorplan();
     const guests = loadGuests();
+    const logo = loadLogo();
     const theme = loadTheme();
     const customColors = loadCustomColors(state.customColors);
-    dispatch({ type: 'HYDRATE', floorplan, guests, theme, customColors, idCounter: nextIdCounter(floorplan) });
+    dispatch({ type: 'HYDRATE', floorplan, guests, logo, theme, customColors, idCounter: nextIdCounter(floorplan) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

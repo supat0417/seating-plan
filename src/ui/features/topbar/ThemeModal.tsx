@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePlan } from '../../state/PlanProvider';
 import { useT } from '../../i18n/I18nContext';
 import { ModalBackdrop, ModalCloseButton } from '../../components/Modal';
@@ -28,6 +28,7 @@ export function ThemeModal({ onClose }: { onClose: () => void }) {
   const { t, lang } = useT();
   const [hexDraft, setHexDraft] = useState<Record<string, string>>({});
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
+  const logoInputRef = useRef<HTMLInputElement | null>(null);
 
   function selectTheme(id: string | null) {
     dispatch({ type: 'SET_THEME', theme: id });
@@ -35,6 +36,19 @@ export function ThemeModal({ onClose }: { onClose: () => void }) {
 
   function commitColor(slot: keyof CustomThemeColors, hex: string) {
     dispatch({ type: 'SET_CUSTOM_COLOR', slot, hex });
+  }
+
+  function handleLogo(file: File | undefined) {
+    if (!file || !file.type.startsWith('image/') || file.size > 5 * 1024 * 1024) {
+      if (file) alert(t('logoInvalid'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const logo = String(reader.result || '');
+      if (logo.startsWith('data:image/')) dispatch({ type: 'SET_LOGO', logo });
+    };
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -83,6 +97,28 @@ export function ThemeModal({ onClose }: { onClose: () => void }) {
                 <span className="theme-card-check"><StatusFullIcon size={12} /></span>
               </div>
             </button>
+          </div>
+
+          <div className="logo-editor">
+            <div className="theme-custom-title">{t('logoTitle')}</div>
+            <div className="hint" style={{ margin: '0 0 10px' }}>{t('logoHint')}</div>
+            <div className="logo-editor-row">
+              {state.logo ? <img className="logo-editor-preview" src={state.logo} alt="" /> : <div className="logo-editor-empty">{t('logoTitle')}</div>}
+              <div className="logo-editor-actions">
+                <button type="button" className="chip primary" onClick={() => logoInputRef.current?.click()}>{t('logoChoose')}</button>
+                {state.logo && <button type="button" className="chip danger" onClick={() => dispatch({ type: 'SET_LOGO', logo: null })}>{t('logoRemove')}</button>}
+                <input
+                  ref={logoInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  hidden
+                  onChange={(event) => {
+                    handleLogo(event.target.files?.[0]);
+                    event.target.value = '';
+                  }}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="theme-custom-editor">
