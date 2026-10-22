@@ -81,6 +81,24 @@ export function seatPositions(
   return pts;
 }
 
+/** Index into seatPositions() for a guest's seat value ("3" -> 2), or null when the seat
+ * isn't a whole number within the table's capacity. */
+export function seatIndexFor(seat: string | null | undefined, capacity: number): number | null {
+  const n = Number(String(seat ?? '').trim());
+  if (!Number.isInteger(n) || n < 1 || n > capacity) return null;
+  return n - 1;
+}
+
+/** Canvas-space centre of seat `index` on a table, following the table's rotation. */
+export function seatCanvasPoint(o: FloorplanObject, index: number): { x: number; y: number } | null {
+  const p = seatPositions(o.type, o.w, o.h, o.capacity)[index];
+  if (!p) return null;
+  const dx = p.x + 3.5 - o.w / 2, dy = p.y + 3.5 - o.h / 2;
+  const rad = ((o.rot || 0) * Math.PI) / 180;
+  const cos = Math.cos(rad), sin = Math.sin(rad);
+  return { x: o.x + o.w / 2 + dx * cos - dy * sin, y: o.y + o.h / 2 + dx * sin + dy * cos };
+}
+
 const ROT_SNAP_DIST = 5;
 export interface RotationSnapResult {
   deg: number;

@@ -1,5 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import { seatPositions, type FloorplanObject } from '../../../domain/floorplan';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { CANVAS_H, CANVAS_W, normTable, seatCanvasPoint, seatIndexFor, seatPositions, type FloorplanObject } from '../../../domain/floorplan';
+
+/** Gap kept between the focused table and the guest panel / viewport edge. */
+const FOCUS_PAD = 40;
+
+/** The searched-for guest's table and seat; survives until the view is reset. */
+interface Pin { tableId: string; seatIndex: number | null; name: string | null; seat: string | null }
 import { seatRosterForTable, type Guest } from '../../../domain/guest';
 import { useT } from '../../i18n/I18nContext';
 import { useZoom } from '../../hooks/useZoom';
@@ -24,6 +30,10 @@ export function PlanPreview({
   const [spotlightOn, setSpotlightOn] = useState(false);
   const [ringKey, setRingKey] = useState(0);
   const [hintVisible, setHintVisible] = useState(true);
+  const [pin, setPin] = useState<Pin | null>(null);
+  /** Pan applied while a table is focused so the guest panel doesn't cover it. */
+  const [shift, setShift] = useState({ x: 0, y: 0 });
+  const panelRef = useRef<HTMLElement | null>(null);
   const panelBodyRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -40,7 +50,39 @@ export function PlanPreview({
   const roster = panelObj ? seatRosterForTable(guests, panelObj) : [];
   const filled = roster.filter((row) => !row.empty).length;
 
+  /** Viewport-pixel position of a canvas point (the canvas is centred and scaled about its middle). */
+  function toScreen(x: number, y: number, s = shift) {
+    const vp = viewportRef.current;
+    return {
+      x: (vp?.clientWidth ?? 0) / 2 + s.x + (x - CANVAS_W / 2) * zoom,
+      y: (vp?.clientHeight ?? 0) / 2 + s.y + (y - CANVAS_H / 2) * zoom,
+    };
+  }
+
+  /** Shift needed to pull the table out from under the guest panel (right side on desktop,
+   * bottom sheet on mobile). */
+  function shiftFor(obj: FloorplanObject) {
+    const vp = viewportRef.current;
+    const panel = panelRef.current;
+    if (!vp || !panel) return { x: 0, y: 0 };
+    const center = toScreen(obj.x + obj.w / 2, obj.y + obj.h / 2, { x: 0, y: 0 });
+    const half = (Math.max(obj.w, obj.h) / 2) * zoom;
+    const isSheet = getComputedStyle(panel).position === 'fixed';
+    if (!isSheet) {
+      const safeRight = vp.clientWidth - panel.offsetWidth - FOCUS_PAD;
+      return { x: Math.min(0, safeRight - (center.x + half)), y: 0 };
+    }
+    const vpRect = vp.getBoundingClientRect();
+    const safeBottom = Math.min(vp.clientHeight, window.innerHeight - panel.offsetHeight - vpRect.top) - FOCUS_PAD;
+    return { x: 0, y: Math.max(-center.y + half + FOCUS_PAD, Math.min(0, safeBottom - (center.y + half))) };
+  }
+
   function focusTable(obj: FloorplanObject, name: string | null) {
+    const guest = name
+      ? guests.find((g) => normTable(g.table) === normTable(obj.label) && g.name.trim().toLowerCase() === name.trim().toLowerCase())
+      : undefined;
+    setPin({ tableId: obj.id, seatIndex: guest ? seatIndexFor(guest.seat, obj.capacity) : null, name: guest?.name ?? null, seat: guest?.seat ?? null });
+    setShift(shiftFor(obj));
     setFocusedId(obj.id);
     setHighlightName(name);
     setSpotlightOn(true);
@@ -56,7 +98,14 @@ export function PlanPreview({
     setPanelObj(null);
     setHighlightName(null);
     setHintVisible(true);
+    setPin(null);
+    setShift({ x: 0, y: 0 });
   }
+
+  const focusedObj = focusedId ? floorplan.find((obj) => obj.id === focusedId) ?? null : null;
+  const focusPt = focusedObj ? toScreen(focusedObj.x + focusedObj.w / 2, focusedObj.y + focusedObj.h / 2) : null;
+  const pinObj = pin ? floorplan.find((obj) => obj.id === pin.tableId) ?? null : null;
+  const pinPoint = pinObj && pin?.seatIndex != null ? seatCanvasPoint(pinObj, pin.seatIndex) : null;
 
   useEffect(() => {
     const pending = consumePendingHighlight();
@@ -115,12 +164,15 @@ export function PlanPreview({
           if (element) fitToScreen();
         }}
         onWheel={onWheel}
+        style={focusPt ? ({ '--fx': `${focusPt.x}px`, '--fy': `${focusPt.y}px` } as CSSProperties) : undefined}
       >
-        <div className="preview-floor-canvas" style={{ transform: `scale(${zoom})` }}>
+        <div className="preview-floor-canvas" style={{ transform: `translate(${shift.x}px, ${shift.y}px) scale(${zoom})` }}>
           {floorplan.map((obj) => {
             const isTable = obj.type === 'round' || obj.type === 'long';
             const isFocused = focusedId === obj.id;
-            const dimmed = focusedId !== null && !isFocused;
+            // Only tables fade; the stage and doors stay crisp as orientation landmarks.
+            const dimmed = isTable && focusedId !== null && !isFocused;
+            const pinned = pin?.tableId === obj.id;
             return (
               <button
                 key={obj.id}
@@ -130,24 +182,38 @@ export function PlanPreview({
                 onClick={() => focusTable(obj, null)}
               >
                 {isTable && seatPositions(obj.type, obj.w, obj.h, obj.capacity).map((point, index) => (
-                  <span key={index} className="preview-seat-mark" style={{ left: point.x + 0.5, top: point.y + 0.5 }} />
+                  <span
+                    key={index}
+                    className={`preview-seat-mark${pinned ? ' numbered' : ''}${pinned && pin?.seatIndex === index ? ' me' : ''}`}
+                    style={{ left: point.x + 0.5, top: point.y + 0.5 }}
+                  >
+                    {pinned && <span style={{ transform: `rotate(${-(obj.rot || 0)}deg)` }}>{index + 1}</span>}
+                  </span>
                 ))}
                 <span className="preview-table-label">{obj.label}</span>
                 {isTable && <span className="preview-table-sub">{t('seatsCount', obj.capacity || 0)} · {guestCount(obj)}</span>}
               </button>
             );
           })}
+          {pinPoint && pin && (
+            <div key={`${pin.tableId}-${pin.seatIndex}`} className="preview-seat-pin" style={{ left: pinPoint.x, top: pinPoint.y }}>
+              <div className="preview-seat-pin-label">
+                <b>{pin.name}</b>
+                <span>{t('seatInline', pin.seat ?? '')}</span>
+              </div>
+            </div>
+          )}
         </div>
         <div className={`preview-spotlight${spotlightOn ? ' show' : ''}`} />
         <div key={ringKey} className={`preview-focus-ring${ringKey > 0 ? ' play' : ''}`} />
         <div className="preview-zoom-controls">
           <button type="button" title={t('zoomInTitle')} onClick={zoomIn}>+</button>
-          <button type="button" className="home" title={t('zoomFitTitle')} onClick={fitToScreen}>⤢</button>
+          <button type="button" className="home" title={t('zoomFitTitle')} onClick={resetView}>⤢</button>
           <button type="button" title={t('zoomOutTitle')} onClick={zoomOut}>−</button>
         </div>
         <div className="preview-hint-tag" style={{ opacity: hintVisible ? 1 : 0 }}>{t('zoomHint')}</div>
         <div className={`display-guest-backdrop${panelObj ? ' show' : ''}`} onClick={resetView} />
-        <aside className={`display-guest-panel${panelObj ? ' open' : ''}`}>
+        <aside ref={panelRef} className={`display-guest-panel${panelObj ? ' open' : ''}`}>
           <div className="display-guest-head">
             <button type="button" onClick={resetView} aria-label={t('modalCloseLabel')}>×</button>
             <small>{t('tableWordPrefix')}</small>
