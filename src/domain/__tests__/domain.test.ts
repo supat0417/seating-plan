@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CANVAS_W, CANVAS_H, DEFAULTS, findSnap, seatPositions, snapRotation, unrotateDelta, applyResizeDelta } from '../floorplan';
+import { CANVAS_W, CANVAS_H, DEFAULTS, findSnap, seatPositions, snapRotation, unrotateDelta, applyResizeDelta, seatIndexFor, seatCanvasPoint } from '../floorplan';
 import { seatConflictCounts, seatRosterForTable, tableStatus, guestsForTable } from '../guest';
 import { THEMES, computePlanThemeTokens, themeLuminance, isHexColor } from '../theme';
 import { parseCSV, buildGuestTemplateCsv } from '../csv';
@@ -185,5 +185,23 @@ describe('i18n dictionary parity', () => {
     const thKeys = Object.keys(DICTIONARIES.th).sort();
     const enKeys = Object.keys(DICTIONARIES.en).sort();
     expect(thKeys).toEqual(enKeys);
+  });
+});
+
+describe('seat focus helpers', () => {
+  it('maps numeric seats to seatPositions indexes', () => {
+    expect(seatIndexFor('3', 8)).toBe(2);
+    expect(seatIndexFor('9', 8)).toBeNull();
+    expect(seatIndexFor('A', 8)).toBeNull();
+  });
+  it('places seat 1 above a round table and follows rotation', () => {
+    const r = 100 / 2 + 10;
+    const base = { id: 't', type: 'round' as const, x: 0, y: 0, w: 100, h: 100, label: 't', capacity: 8 };
+    const top = seatCanvasPoint({ ...base, rot: 0 }, 0)!;
+    expect(top.x).toBeCloseTo(50, 5);
+    expect(top.y).toBeCloseTo(50 - r, 5);
+    const turned = seatCanvasPoint({ ...base, rot: 90 }, 0)!;
+    expect(turned.x).toBeCloseTo(50 + r, 5);
+    expect(turned.y).toBeCloseTo(50, 5);
   });
 });
