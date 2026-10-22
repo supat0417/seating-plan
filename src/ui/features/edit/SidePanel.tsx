@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CAP_MAX, CAP_MIN, DIM_MAX, DIM_MIN, clampNum, isRotatableType, isTableType, type FloorplanObject } from '../../../domain/floorplan';
+import { CAP_MIN, DIM_MAX, DIM_MIN, capMax, clampNum, isRotatableType, isTableType, type FloorplanObject } from '../../../domain/floorplan';
 import { useT } from '../../i18n/I18nContext';
 import { SelectIcon } from '../../components/Icons';
 
@@ -78,10 +78,10 @@ function SingleObjectFields({ obj, onUpdateFields, onDelete }: { obj: FloorplanO
           <input
             type="number"
             min={0}
-            max={30}
+            max={capMax(obj.type)}
             value={cap}
             onChange={(e) => setCap(e.target.value)}
-            onBlur={() => commit({ capacity: clampNum(parseInt(cap, 10) || 0, CAP_MIN, CAP_MAX) })}
+            onBlur={() => commit({ capacity: clampNum(parseInt(cap, 10) || 0, CAP_MIN, capMax(obj.type)) })}
           />
         </>
       )}

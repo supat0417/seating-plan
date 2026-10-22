@@ -1,7 +1,7 @@
 // JSON export/import schema + validation — ported 1:1 from seating-plan.html's
 // exportAll/importAllFile. Pure functions only; the UI layer owns file IO, confirm()
 // dialogs, and applying the result to state.
-import { CAP_MIN, CAP_MAX, DEFAULTS, DIM_MIN, DIM_MAX, clampNum, type FloorplanObject, type ObjectType } from './floorplan';
+import { CAP_MIN, DEFAULTS, DIM_MIN, DIM_MAX, capMax, clampNum, type FloorplanObject, type ObjectType } from './floorplan';
 import type { Guest } from './guest';
 import { isHexColor, type CustomThemeColors } from './theme';
 
@@ -101,7 +101,7 @@ export function normalizeImportedFloorplan(raw: unknown[]): FloorplanObject[] {
       h: clampNum(Number(r.h) || (d ? d.h : 100), DIM_MIN, DIM_MAX),
       rot: Number(r.rot) || 0,
       label: r.label || '',
-      capacity: clampNum(Number(r.capacity) || 0, CAP_MIN, CAP_MAX),
+      capacity: clampNum(Number(r.capacity) || 0, CAP_MIN, capMax(type)),
     };
   });
 }

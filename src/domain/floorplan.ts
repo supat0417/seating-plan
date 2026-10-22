@@ -27,11 +27,17 @@ export const DEFAULTS: Record<ObjectType, { w: number; h: number; capacity: numb
 
 export const CAP_MIN = 0;
 export const CAP_MAX = 30;
+export const CAP_MAX_LONG = 50;
 export const DIM_MIN = 20;
 export const DIM_MAX = 600;
 
 export function clampNum(v: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, v));
+}
+
+/** Max seat capacity for a given object type (long tables allow more seats). */
+export function capMax(type: ObjectType): number {
+  return type === 'long' ? CAP_MAX_LONG : CAP_MAX;
 }
 
 export function isRotatableType(type: ObjectType): boolean {
