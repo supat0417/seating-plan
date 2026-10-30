@@ -71,6 +71,9 @@ export interface Dictionary {
   fieldHeight: string;
   fieldRotation: string;
   rotReset: string;
+  fieldSeatStart: string;
+  seatStartLeft: string;
+  seatStartRight: string;
   deleteObjectBtn: string;
   resizeHandleTitle: string;
   rotateHandleTitle: string;

@@ -100,6 +100,7 @@ export function normalizeImportedFloorplan(raw: unknown[]): FloorplanObject[] {
       w: clampNum(Number(r.w) || (d ? d.w : 100), DIM_MIN, DIM_MAX),
       h: clampNum(Number(r.h) || (d ? d.h : 100), DIM_MIN, DIM_MAX),
       rot: Number(r.rot) || 0,
+      ...(r.mirror === true ? { mirror: true } : {}),
       label: r.label || '',
       capacity: clampNum(Number(r.capacity) || 0, CAP_MIN, capMax(type)),
     };

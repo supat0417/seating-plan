@@ -181,7 +181,7 @@ export function PlanPreview({
                 style={{ left: obj.x, top: obj.y, width: obj.w, height: obj.h, transform: `rotate(${obj.rot || 0}deg)` }}
                 onClick={() => focusTable(obj, null)}
               >
-                {isTable && seatPositions(obj.type, obj.w, obj.h, obj.capacity).map((point, index) => (
+                {isTable && seatPositions(obj.type, obj.w, obj.h, obj.capacity, obj.mirror).map((point, index) => (
                   <span
                     key={index}
                     className={`preview-seat-mark${pinned ? ' numbered' : ''}${pinned && pin?.seatIndex === index ? ' me' : ''}`}
