@@ -313,8 +313,8 @@ export function FloorplanCanvas({
               if (readOnly) onOpenTable?.(o);
             }}
           >
-            {isTable && seatPositions(o.type, o.w, o.h, o.capacity).map((p, i) => (
-              <div key={i} className="seat-dot" style={{ left: p.x, top: p.y }} />
+            {isTable && seatPositions(o.type, o.w, o.h, o.capacity, o.mirror).map((p, i) => (
+              <div key={i} className={i === 0 ? 'seat-dot first' : 'seat-dot'} style={{ left: p.x, top: p.y }} />
             ))}
             <div className="label">{o.label}</div>
             {isTable && <div className="sub">{t('seatsCount', o.capacity)}</div>}

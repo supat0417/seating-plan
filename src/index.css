@@ -208,6 +208,7 @@ button.chip.icon-chip, a.chip.icon-chip { width: 36px; height: 36px; padding: 0;
 }
 .seat-dot { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--slate); opacity: 0.55; }
 .obj.round .seat-dot, .obj.long .seat-dot { background: var(--navy); opacity: 0.32; }
+.obj.round .seat-dot.first, .obj.long .seat-dot.first { background: var(--gold-deep); opacity: 1; box-shadow: 0 0 0 1.5px var(--navy-deep); }
 
 .resize-handle {
   position: absolute; right: -7px; bottom: -7px; width: 15px; height: 15px; border-radius: 50%;

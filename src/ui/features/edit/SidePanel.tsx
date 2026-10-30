@@ -111,6 +111,15 @@ function SingleObjectFields({ obj, onUpdateFields, onDelete }: { obj: FloorplanO
           </div>
         </>
       )}
+      {isTable && (
+        <>
+          <label>{t('fieldSeatStart')}</label>
+          <div style={{ display: 'flex', gap: 6 }}>
+            <button className={`chip${obj.mirror ? '' : ' primary'}`} aria-pressed={!obj.mirror} style={{ flex: 1, padding: '6px 2px', justifyContent: 'center', fontSize: 12 }} onClick={() => commit({ mirror: false })}>{t('seatStartLeft')}</button>
+            <button className={`chip${obj.mirror ? ' primary' : ''}`} aria-pressed={!!obj.mirror} style={{ flex: 1, padding: '6px 2px', justifyContent: 'center', fontSize: 12 }} onClick={() => commit({ mirror: true })}>{t('seatStartRight')}</button>
+          </div>
+        </>
+      )}
       <button className="chip danger" style={{ width: '100%', justifyContent: 'center', marginTop: 16 }} onClick={() => onDelete(obj.id)}>{t('deleteObjectBtn')}</button>
     </>
   );

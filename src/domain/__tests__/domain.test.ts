@@ -3,7 +3,7 @@ import { CANVAS_W, CANVAS_H, DEFAULTS, findSnap, seatPositions, snapRotation, un
 import { seatConflictCounts, seatRosterForTable, tableStatus, guestsForTable } from '../guest';
 import { THEMES, computePlanThemeTokens, themeLuminance, isHexColor } from '../theme';
 import { parseCSV, buildGuestTemplateCsv } from '../csv';
-import { parseImportJson, resolveImportedTheme } from '../jsonSchema';
+import { normalizeImportedFloorplan, parseImportJson, resolveImportedTheme } from '../jsonSchema';
 import { DICTIONARIES } from '../i18n';
 
 describe('constants', () => {
@@ -36,6 +36,19 @@ describe('seatPositions', () => {
   });
   it('returns nothing for zero capacity', () => {
     expect(seatPositions('round', 100, 100, 0)).toEqual([]);
+  });
+  it('mirror starts seat 1 on the right of each long-table row', () => {
+    const plain = seatPositions('long', 220, 70, 6);
+    const mirrored = seatPositions('long', 220, 70, 6, true);
+    expect(plain[0].x).toBeLessThan(plain[2].x);
+    expect(mirrored[0].x).toBeCloseTo(plain[2].x, 5);
+    expect(mirrored[3].x).toBeCloseTo(plain[5].x, 5);
+    expect(mirrored[0].y).toBeCloseTo(plain[0].y, 5);
+  });
+  it('JSON import keeps mirror only when true', () => {
+    const base = { id: 't1', type: 'long', x: 0, y: 0, w: 220, h: 70, rot: 0, label: 'A', capacity: 4 };
+    const fp = normalizeImportedFloorplan([{ ...base, mirror: true }, { ...base, id: 't2', mirror: 'yes' }, { ...base, id: 't3' }]);
+    expect(fp.map((o) => o.mirror)).toEqual([true, undefined, undefined]);
   });
 });
 
